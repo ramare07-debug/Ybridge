@@ -308,6 +308,148 @@ body {
   text-align: center;
 }
 
+/* 상담신청 버튼 (로그인 왼쪽 하단) */
+.consult-btn-wrap {
+  position: relative; z-index: 1;
+  margin-top: 28px;
+}
+.consult-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 22px;
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  color: white;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: left;
+}
+.consult-btn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+.consult-btn-left strong { display: block; font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
+.consult-btn-left span  { font-size: 0.775rem; color: rgba(255,255,255,0.5); }
+.consult-btn-arr { font-size: 1.2rem; opacity: 0.6; }
+
+/* ══════════════ SCREEN 4 — 상담신청 ══════════════ */
+#consult { flex-direction: column; background: var(--gray-50); }
+.consult-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  background: var(--white); border-bottom: 1px solid var(--gray-200);
+}
+.consult-body {
+  flex: 1; display: flex; align-items: flex-start; justify-content: center;
+  padding: 52px 24px;
+}
+.consult-card {
+  width: 100%; max-width: 580px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  padding: 44px 48px;
+  box-shadow: var(--shadow-lg);
+}
+.consult-header { margin-bottom: 32px; }
+.consult-badge {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
+  color: var(--blue); text-transform: uppercase;
+  background: #eff3ff; padding: 5px 12px; border-radius: 20px;
+  margin-bottom: 14px;
+}
+.consult-title { font-size: 1.6rem; font-weight: 900; color: var(--black); margin-bottom: 8px; }
+.consult-sub { font-size: 0.875rem; color: var(--gray-600); line-height: 1.6; }
+
+.consult-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.consult-form-row .form-group { margin-bottom: 0; }
+.form-group { margin-bottom: 18px; }
+.form-required { color: var(--danger); margin-left: 2px; }
+
+.consult-textarea {
+  width: 100%; padding: 14px 16px; min-height: 110px; resize: vertical;
+  background: var(--gray-50); border: 1.5px solid var(--gray-200);
+  border-radius: 10px; color: var(--black); font-size: 0.9rem;
+  font-family: inherit; outline: none; transition: all 0.2s;
+}
+.consult-textarea:focus { border-color: var(--blue); background: var(--white); box-shadow: 0 0 0 3px rgba(26,79,214,0.08); }
+.consult-textarea::placeholder { color: var(--gray-400); }
+
+.btn-submit {
+  width: 100%; padding: 16px; background: var(--navy); border: none;
+  border-radius: 12px; color: white; font-size: 1rem; font-weight: 700;
+  font-family: inherit; cursor: pointer; margin-top: 8px; transition: all 0.25s;
+}
+.btn-submit:hover { background: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,79,214,0.3); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.consult-success {
+  display: none; text-align: center; padding: 32px 0;
+}
+.consult-success .s-icon { font-size: 3rem; margin-bottom: 16px; }
+.consult-success .s-title { font-size: 1.3rem; font-weight: 800; color: var(--black); margin-bottom: 8px; }
+.consult-success .s-desc { font-size: 0.875rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 24px; }
+
+/* ══════════════ SCREEN 5 — 관리자 ══════════════ */
+#admin { flex-direction: column; background: var(--gray-50); }
+.admin-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.admin-logo { font-size: 1rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; }
+.admin-badge { font-size: 0.7rem; padding: 3px 10px; background: rgba(255,255,255,0.1); border-radius: 20px; color: rgba(255,255,255,0.7); }
+.admin-body { flex: 1; padding: 36px 40px; }
+
+/* 관리자 로그인 */
+.admin-login-wrap {
+  display: flex; align-items: center; justify-content: center;
+  min-height: calc(100vh - 64px);
+}
+.admin-login-card {
+  width: 100%; max-width: 360px;
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: 16px; padding: 36px; box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.admin-login-icon { font-size: 2.5rem; margin-bottom: 16px; }
+.admin-login-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+.admin-login-sub { font-size: 0.825rem; color: var(--gray-600); margin-bottom: 24px; }
+.admin-err { font-size: 0.8rem; color: var(--danger); margin-top: 8px; display: none; }
+
+/* 관리자 테이블 */
+.admin-data { display: none; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.admin-title { font-size: 1.4rem; font-weight: 900; color: var(--black); }
+.admin-count { font-size: 0.825rem; color: var(--gray-600); }
+.admin-table-wrap { background: var(--white); border: 1px solid var(--gray-200); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th {
+  padding: 14px 18px; background: var(--gray-50);
+  font-size: 0.75rem; font-weight: 700; color: var(--gray-600);
+  text-align: left; border-bottom: 1px solid var(--gray-200);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.admin-table td {
+  padding: 14px 18px; font-size: 0.85rem; color: var(--black);
+  border-bottom: 1px solid var(--gray-100); vertical-align: top;
+}
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover td { background: var(--gray-50); }
+.status-chip {
+  display: inline-block; font-size: 0.72rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  background: #eff3ff; color: var(--blue);
+}
+.admin-loading { text-align: center; padding: 48px; color: var(--gray-400); }
+.admin-empty { text-align: center; padding: 48px; color: var(--gray-400); font-size: 0.875rem; }
+
 
 /* ══════════════════════════════════════
    SCREEN 2 — DASHBOARD
@@ -898,6 +1040,17 @@ body {
         </div>
       </div>
     </div>
+
+    <!-- 상담신청 버튼 -->
+    <div class="consult-btn-wrap">
+      <button class="consult-btn" onclick="goTo('consult')">
+        <div class="consult-btn-left">
+          <strong>📋 내부통제시스템 도입 상담신청</strong>
+          <span>AI 내부통제 자동화, 지금 바로 경험해보세요</span>
+        </div>
+        <div class="consult-btn-arr">→</div>
+      </button>
+    </div>
   </div>
 
   <!-- 오른쪽 폼 -->
@@ -1230,11 +1383,229 @@ body {
   </div>
 </div>
 
+<!-- ═══════ SCREEN 4: 상담신청 ═══════ -->
+<div id="consult" class="screen">
+  <div class="consult-topbar">
+    <div class="breadcrumb">
+      <span class="bc bc-brand">플랜아이</span>
+      <span class="bc-sep">›</span>
+      <span class="bc active">📋 도입 상담신청</span>
+    </div>
+    <button class="btn-line" onclick="goTo('login')">← 로그인으로</button>
+  </div>
+  <div class="consult-body">
+    <div class="consult-card">
+      <div class="consult-header">
+        <div class="consult-badge">CONSULTATION REQUEST</div>
+        <div class="consult-title">도입 상담신청</div>
+        <div class="consult-sub">내부통제시스템 도입에 관심이 있으신가요?<br/>담당자가 1영업일 내에 연락드리겠습니다.</div>
+      </div>
+
+      <!-- 폼 -->
+      <div id="consult-form">
+        <div class="consult-form-row">
+          <div class="form-group">
+            <label class="form-label">이름 <span class="form-required">*</span></label>
+            <input class="form-input" id="f-name" type="text" placeholder="홍길동"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">회사명</label>
+            <input class="form-input" id="f-company" type="text" placeholder="(주)플랜아이"/>
+          </div>
+        </div>
+        <div class="consult-form-row" style="margin-bottom:18px;">
+          <div class="form-group">
+            <label class="form-label">연락처</label>
+            <input class="form-input" id="f-phone" type="tel" placeholder="010-0000-0000"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">이메일 <span class="form-required">*</span></label>
+            <input class="form-input" id="f-email" type="email" placeholder="name@company.com"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">문의내용</label>
+          <textarea class="consult-textarea" id="f-message" placeholder="도입 배경, 현재 상황, 궁금한 점 등 자유롭게 작성해주세요."></textarea>
+        </div>
+        <button class="btn-submit" id="submit-btn" onclick="submitConsult()">상담신청 하기 →</button>
+      </div>
+
+      <!-- 성공 메시지 -->
+      <div class="consult-success" id="consult-success">
+        <div class="s-icon">✅</div>
+        <div class="s-title">신청이 완료되었습니다!</div>
+        <div class="s-desc">담당자가 1영업일 내에 입력하신 연락처로 연락드리겠습니다.<br/>감사합니다.</div>
+        <button class="btn-submit" style="max-width:200px;margin:0 auto;" onclick="goTo('login')">← 처음으로</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════ SCREEN 5: 관리자 ═══════ -->
+<div id="admin" class="screen">
+  <div class="admin-topbar">
+    <div class="admin-logo">
+      🔒 내부통제시스템
+      <div class="admin-badge">관리자 전용</div>
+    </div>
+    <button class="btn-line" style="color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.2);" onclick="goTo('login')">← 나가기</button>
+  </div>
+  <div class="admin-body">
+
+    <!-- 관리자 로그인 -->
+    <div class="admin-login-wrap" id="admin-login-wrap">
+      <div class="admin-login-card">
+        <div class="admin-login-icon">🔐</div>
+        <div class="admin-login-title">관리자 확인</div>
+        <div class="admin-login-sub">관리자 비밀번호를 입력하세요</div>
+        <div class="form-group">
+          <input class="form-input" id="admin-pw" type="password" placeholder="비밀번호 입력"
+            onkeydown="if(event.key==='Enter') checkAdmin()"/>
+        </div>
+        <button class="btn-submit" onclick="checkAdmin()">확인</button>
+        <div class="admin-err" id="admin-err">비밀번호가 올바르지 않습니다.</div>
+      </div>
+    </div>
+
+    <!-- 신청 목록 -->
+    <div class="admin-data" id="admin-data">
+      <div class="admin-header">
+        <div>
+          <div class="admin-title">📋 상담신청 목록</div>
+          <div class="admin-count" id="admin-count"></div>
+        </div>
+        <button class="btn-fill" onclick="loadConsultations()">🔄 새로고침</button>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-loading" id="admin-loading">데이터를 불러오는 중...</div>
+        <div class="admin-empty" id="admin-empty" style="display:none;">아직 신청 내역이 없습니다.</div>
+        <table class="admin-table" id="admin-table" style="display:none;">
+          <thead>
+            <tr>
+              <th>신청일시</th>
+              <th>이름</th>
+              <th>회사</th>
+              <th>연락처</th>
+              <th>이메일</th>
+              <th>문의내용</th>
+              <th>상태</th>
+            </tr>
+          </thead>
+          <tbody id="admin-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
+const SUPABASE_URL = 'https://lxtkjnsxphltuvoeojob.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4dGtqbnN4cGhsdHV2b2Vvam9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2Mzc4NzksImV4cCI6MjA5NTIxMzg3OX0.Qc6iDStDbsUZEa6L4h-Ad5Sz45X3W4bE-RYX-s4RaxI';
+const ADMIN_PW = 'plani2026';
+
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
+}
+
+/* 상담신청 제출 */
+async function submitConsult() {
+  const name    = document.getElementById('f-name').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const message = document.getElementById('f-message').value.trim();
+
+  if (!name)  { alert('이름을 입력해주세요.'); return; }
+  if (!email) { alert('이메일을 입력해주세요.'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = '제출 중...';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/consultations`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name, company, phone, email, message })
+    });
+
+    if (res.ok || res.status === 201) {
+      document.getElementById('consult-form').style.display = 'none';
+      document.getElementById('consult-success').style.display = 'block';
+    } else {
+      throw new Error('제출 실패');
+    }
+  } catch(e) {
+    alert('오류가 발생했습니다. 다시 시도해주세요.');
+    btn.disabled = false;
+    btn.textContent = '상담신청 하기 →';
+  }
+}
+
+/* 관리자 비밀번호 확인 */
+function checkAdmin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === ADMIN_PW) {
+    document.getElementById('admin-login-wrap').style.display = 'none';
+    document.getElementById('admin-data').style.display = 'block';
+    loadConsultations();
+  } else {
+    document.getElementById('admin-err').style.display = 'block';
+  }
+}
+
+/* 신청 목록 불러오기 */
+async function loadConsultations() {
+  document.getElementById('admin-loading').style.display = 'block';
+  document.getElementById('admin-table').style.display = 'none';
+  document.getElementById('admin-empty').style.display = 'none';
+
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/consultations?select=*&order=created_at.desc`,
+      {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+    const data = await res.json();
+    document.getElementById('admin-loading').style.display = 'none';
+
+    if (!data.length) {
+      document.getElementById('admin-empty').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('admin-count').textContent = `총 ${data.length}건의 신청`;
+    const tbody = document.getElementById('admin-tbody');
+    tbody.innerHTML = data.map(r => `
+      <tr>
+        <td style="white-space:nowrap;color:var(--gray-600);font-size:0.78rem;">
+          ${new Date(r.created_at).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+        </td>
+        <td><strong>${r.name}</strong></td>
+        <td>${r.company || '-'}</td>
+        <td>${r.phone || '-'}</td>
+        <td>${r.email}</td>
+        <td style="max-width:200px;color:var(--gray-600);">${r.message || '-'}</td>
+        <td><span class="status-chip">${r.status}</span></td>
+      </tr>
+    `).join('');
+    document.getElementById('admin-table').style.display = 'table';
+  } catch(e) {
+    document.getElementById('admin-loading').textContent = '데이터 로드 실패. 새로고침 해주세요.';
+  }
 }
 </script>
 </body>
