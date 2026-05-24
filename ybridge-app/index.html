@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>플랜아이 내부통제시스템</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --black:   #0a0a0a;
+  --navy:    #0f1f3d;
+  --blue:    #1a4fd6;
+  --blue-lt: #3b6ef8;
+  --gray-50: #f8f9fb;
+  --gray-100:#f1f3f7;
+  --gray-200:#e4e7ef;
+  --gray-400:#9ba3b8;
+  --gray-600:#5a6380;
+  --white:   #ffffff;
+  --success: #0ea66b;
+  --warn:    #f59e0b;
+  --danger:  #e53935;
+  --radius:  14px;
+  --shadow:  0 4px 24px rgba(10,20,60,0.08);
+  --shadow-lg: 0 16px 48px rgba(10,20,60,0.13);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--gray-50);
+  color: var(--black);
+  min-height: 100vh;
+}
+
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; }
+
+
+/* ══════════════════════════════════════
+   SCREEN 1 — LOGIN
+══════════════════════════════════════ */
+#login {
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+/* 왼쪽 브랜드 패널 */
+.login-brand {
+  width: 52%;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 52px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 배경 타이포그래피 */
+.brand-bg-text {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bbt-word {
+  position: absolute;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: rgba(255,255,255,0.03);
+  white-space: nowrap;
+  letter-spacing: -2px;
+  user-select: none;
+}
+.bbt-word:nth-child(1) { font-size: 140px; top: -30px;  left: -20px; }
+.bbt-word:nth-child(2) { font-size: 80px;  top: 200px;  right: -40px; color: rgba(26,79,214,0.08); }
+.bbt-word:nth-child(3) { font-size: 100px; bottom: 100px; left: -10px; }
+.bbt-word:nth-child(4) { font-size: 60px;  bottom: 240px; right: 20px; }
+
+/* 왼쪽 상단 로고 */
+.brand-logo-area {
+  position: relative;
+  z-index: 1;
+}
+.brand-plani {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.brand-plani-dot {
+  width: 32px; height: 32px;
+  background: var(--blue);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-plani-dot svg { width: 18px; height: 18px; }
+.brand-plani-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.5px;
+}
+.brand-divider {
+  width: 40px;
+  height: 2px;
+  background: var(--blue);
+  margin: 20px 0;
+}
+
+/* 왼쪽 메인 카피 */
+.brand-headline {
+  position: relative;
+  z-index: 1;
+}
+.brand-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--blue-lt);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.brand-title {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+.brand-title em {
+  font-style: normal;
+  color: var(--blue-lt);
+}
+.brand-desc {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+/* 왼쪽 하단 피처 */
+.brand-features {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.brand-feat {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+}
+.feat-icon {
+  width: 36px; height: 36px;
+  background: rgba(26,79,214,0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.feat-text strong {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+.feat-text span {
+  font-size: 0.775rem;
+  color: rgba(255,255,255,0.45);
+}
+
+/* 오른쪽 폼 패널 */
+.login-form-panel {
+  width: 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 48px;
+  background: var(--white);
+}
+.login-form-box {
+  width: 100%;
+  max-width: 380px;
+}
+.form-top-logo {
+  margin-bottom: 40px;
+}
+.form-logo-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.form-logo-sub {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  letter-spacing: 0.5px;
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+.form-sub {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 36px;
+  line-height: 1.6;
+}
+
+.form-group { margin-bottom: 18px; }
+.form-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gray-600);
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  color: var(--black);
+  font-size: 0.925rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s;
+}
+.form-input:focus {
+  border-color: var(--blue);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(26,79,214,0.08);
+}
+.form-input::placeholder { color: var(--gray-400); }
+
+.btn-login {
+  width: 100%;
+  padding: 15px;
+  background: var(--navy);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.25s;
+  letter-spacing: 0.5px;
+}
+.btn-login:hover {
+  background: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,79,214,0.3);
+}
+
+.login-ai-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 12px 16px;
+  background: #f0faf6;
+  border: 1px solid #c3ead8;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  color: #0a7a50;
+  font-weight: 500;
+}
+.ai-live-dot {
+  width: 8px; height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.login-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gray-200);
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  text-align: center;
+}
+
+
+/* ══════════════════════════════════════
+   SCREEN 2 — DASHBOARD
+══════════════════════════════════════ */
+#dashboard { flex-direction: column; background: var(--gray-50); }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-brand-dot {
+  width: 28px; height: 28px;
+  background: var(--navy);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.topbar-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--navy);
+}
+.topbar-divider {
+  width: 1px; height: 18px;
+  background: var(--gray-200);
+  margin: 0 6px;
+}
+.topbar-sub {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.tb-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  padding: 5px 12px;
+  background: #f0faf6;
+  border: 1px solid #c3ead8;
+  border-radius: 20px;
+  color: #0a7a50;
+  font-weight: 600;
+}
+.tb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); animation: blink 2s infinite; }
+.tb-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.825rem;
+  color: var(--gray-600);
+}
+.tb-avatar {
+  width: 32px; height: 32px;
+  background: var(--navy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+/* 대시보드 본문 */
+.dash-body {
+  flex: 1;
+  padding: 40px 44px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.dash-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+.dash-greet { font-size: 0.875rem; color: var(--gray-600); margin-bottom: 6px; }
+.dash-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: -0.5px;
+}
+.dash-date { font-size: 0.825rem; color: var(--gray-400); }
+
+/* 스탯 */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.stat-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.stat-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.si-blue   { background: #eff3ff; }
+.si-green  { background: #f0faf6; }
+.si-orange { background: #fff7ed; }
+.si-purple { background: #f5f3ff; }
+
+.stat-trend {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--success);
+  background: #f0faf6;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.stat-value {
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: var(--black);
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 0.8rem; color: var(--gray-600); }
+
+/* 섹션 헤더 */
+.sec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.sec-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--black);
+}
+.sec-hint { font-size: 0.8rem; color: var(--gray-400); }
+
+/* 모듈 그리드 */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.mod-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.mod-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.mod-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--gray-400); }
+.mod-card:hover::after { opacity: 1; }
+
+.mc-blue::after   { background: linear-gradient(90deg, var(--blue), var(--blue-lt)); }
+.mc-green::after  { background: linear-gradient(90deg, #0ea66b, #34d399); }
+.mc-orange::after { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.mc-red::after    { background: linear-gradient(90deg, #e53935, #f87171); }
+.mc-violet::after { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.mc-teal::after   { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+
+.mod-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+}
+.mi-blue   { background: #eff3ff; }
+.mi-green  { background: #f0faf6; }
+.mi-orange { background: #fff7ed; }
+.mi-red    { background: #fef2f2; }
+.mi-violet { background: #f5f3ff; }
+.mi-teal   { background: #ecfeff; }
+
+.mod-title  { font-size: 0.975rem; font-weight: 800; color: var(--black); margin-bottom: 6px; }
+.mod-desc   { font-size: 0.8rem; color: var(--gray-600); line-height: 1.5; margin-bottom: 14px; }
+.mod-tags   { display: flex; gap: 6px; flex-wrap: wrap; }
+.mod-tag    { font-size: 0.7rem; padding: 3px 9px; background: var(--gray-100); border-radius: 20px; color: var(--gray-600); }
+.mod-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--gray-100);
+}
+.mod-status { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--gray-600); }
+.ms-dot { width: 6px; height: 6px; border-radius: 50%; }
+.dot-on  { background: var(--success); }
+.dot-off { background: var(--warn); }
+.mod-arr { font-size: 0.8rem; color: var(--gray-400); }
+
+/* OKR 하이라이트 카드 */
+.okr-highlight {
+  background: var(--navy);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.okr-highlight::before {
+  content: 'OKR';
+  position: absolute;
+  right: 32px; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 6rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+.okr-highlight:hover { transform: translateY(-3px); box-shadow: 0 24px 56px rgba(15,31,61,0.25); }
+.okr-hl-icon {
+  width: 60px; height: 60px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.okr-hl-body { flex: 1 }
+.okr-hl-new {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--blue-lt);
+  background: rgba(59,110,248,0.2);
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+.okr-hl-title { font-size: 1.15rem; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+.okr-hl-desc  { font-size: 0.825rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.okr-hl-btn {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  background: var(--blue);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.okr-hl-btn:hover { background: var(--blue-lt); }
+
+
+/* ══════════════════════════════════════
+   SCREEN 3 — OKR
+══════════════════════════════════════ */
+#okr { flex-direction: column; background: var(--gray-50); }
+
+.okr-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+}
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+.bc { color: var(--gray-400); cursor: pointer; transition: color 0.2s; }
+.bc:hover { color: var(--black); }
+.bc.active { color: var(--black); font-weight: 700; }
+.bc-sep { color: var(--gray-200); }
+.bc-brand { font-weight: 800; color: var(--navy); }
+
+.okr-actions { display: flex; gap: 10px; }
+.btn-line {
+  padding: 9px 18px;
+  background: transparent;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 9px;
+  color: var(--gray-600);
+  font-size: 0.825rem;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-line:hover { border-color: var(--navy); color: var(--navy); }
+.btn-fill {
+  padding: 9px 18px;
+  background: var(--navy);
+  border: none;
+  border-radius: 9px;
+  color: white;
+  font-size: 0.825rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-fill:hover { background: var(--blue); }
+
+.okr-body {
+  flex: 1;
+  padding: 36px 44px;
+  max-width: 1020px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Vision Map */
+.vision-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 18px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+}
+.vc-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--blue);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.company-goal-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: #eff3ff;
+  border: 1px solid #d4deff;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.cg-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+.cg-title { font-size: 0.85rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.cg-desc  { font-size: 0.825rem; color: var(--gray-600); line-height: 1.6; }
+
+.laser-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 18px 0;
+}
+.laser {
+  height: 2px; border-radius: 2px;
+  animation: laser-ani 2.5s ease-in-out infinite;
+}
+.laser:nth-child(1) { width:52%; background: linear-gradient(90deg,transparent,var(--blue),transparent); }
+.laser:nth-child(2) { width:36%; background: linear-gradient(90deg,transparent,var(--blue-lt),transparent); animation-delay:.4s; }
+.laser:nth-child(3) { width:22%; background: linear-gradient(90deg,transparent,#93c5fd,transparent); animation-delay:.8s; }
+@keyframes laser-ani {
+  0%,100% { opacity:.25; }
+  50% { opacity:1; }
+}
+
+.rr-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.rr-chip {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 14px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--gray-600);
+}
+.rr-chip-dot { width:6px; height:6px; border-radius:50%; background:var(--blue); flex-shrink:0; }
+
+.ai-box {
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #f0faf6;
+  border: 1px solid #c3ead8;
+  border-radius: 12px;
+  font-size: 0.825rem;
+  color: #0a7a50;
+  line-height: 1.6;
+}
+.ai-box-icon { flex-shrink:0; font-size:1.1rem; margin-top:2px; }
+
+/* Objective */
+.obj-card {
+  background: var(--navy);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.obj-card::after {
+  content: 'O';
+  position: absolute;
+  right: 24px; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 7rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+.obj-badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; color: var(--blue-lt); text-transform: uppercase; margin-bottom: 10px; }
+.obj-main  { font-size: 1.15rem; font-weight: 800; color: var(--white); line-height: 1.5; margin-bottom: 6px; }
+.obj-sub   { font-size: 0.825rem; color: rgba(255,255,255,0.5); }
+
+/* KR */
+.kr-sec-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; color: var(--gray-400); text-transform: uppercase; margin-bottom: 12px; }
+.kr-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+
+.kr-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s;
+  position: relative;
+}
+.kr-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--gray-400); }
+.kr-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 14px 0 0 14px;
+}
+.kr-card:nth-child(1)::before { background: var(--blue); }
+.kr-card:nth-child(2)::before { background: var(--success); }
+.kr-card:nth-child(3)::before { background: var(--warn); }
+.kr-card:nth-child(4)::before { background: #7c3aed; }
+
+.kr-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.kr-left .kr-num  { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; color: var(--gray-400); text-transform: uppercase; margin-bottom: 6px; }
+.kr-left .kr-text { font-size: 0.925rem; font-weight: 700; color: var(--black); line-height: 1.5; }
+.kr-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; margin-left: 20px; }
+.kr-dl { font-size: 0.75rem; padding: 4px 10px; background: var(--gray-100); border-radius: 20px; color: var(--gray-600); white-space: nowrap; }
+.kr-pct { font-size: 0.85rem; font-weight: 800; color: var(--navy); }
+
+.prog-wrap { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--blue-lt)); }
+
+/* Agent 섹션 */
+.agent-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; color: var(--gray-400); text-transform: uppercase; margin-bottom: 12px; }
+.agent-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.agent-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s;
+}
+.agent-card:hover { border-color: var(--navy); transform: translateY(-2px); }
+.ag-icon   { font-size: 1.4rem; margin-bottom: 10px; }
+.ag-role   { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; color: var(--blue); text-transform: uppercase; margin-bottom: 4px; }
+.ag-name   { font-size: 0.875rem; font-weight: 800; color: var(--black); margin-bottom: 4px; }
+.ag-desc   { font-size: 0.75rem; color: var(--gray-600); line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<!-- ═══════ SCREEN 1: LOGIN ═══════ -->
+<div id="login" class="screen active">
+
+  <!-- 왼쪽 브랜드 -->
+  <div class="login-brand">
+    <div class="brand-bg-text">
+      <div class="bbt-word">CONTROL</div>
+      <div class="bbt-word">GOVERNANCE</div>
+      <div class="bbt-word">AI</div>
+      <div class="bbt-word">COMPLIANCE</div>
+    </div>
+
+    <div class="brand-logo-area">
+      <div class="brand-plani">
+        <div class="brand-plani-dot">
+          <svg viewBox="0 0 18 18" fill="none">
+            <rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/>
+            <rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".6"/>
+            <rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".6"/>
+            <rect x="10" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".3"/>
+          </svg>
+        </div>
+        <div class="brand-plani-name">(주)플랜아이</div>
+      </div>
+      <div class="brand-divider"></div>
+    </div>
+
+    <div class="brand-headline">
+      <div class="brand-tag">AI-Powered GRC Platform</div>
+      <div class="brand-title">
+        내부통제,<br/>이제 <em>AI가</em><br/>자동으로
+      </div>
+      <div class="brand-desc">
+        스타트업의 내부통제 프로세스를<br/>
+        AI가 실시간으로 모니터링·자동화합니다.<br/>
+        경영 투명성과 컴플라이언스를 동시에.
+      </div>
+    </div>
+
+    <div class="brand-features">
+      <div class="brand-feat">
+        <div class="feat-icon">📋</div>
+        <div class="feat-text">
+          <strong>AI 정책 컴파일러</strong>
+          <span>자연어 정책 → 실행 가능한 통제 규칙 자동 변환 (특허출원)</span>
+        </div>
+      </div>
+      <div class="brand-feat">
+        <div class="feat-icon">🔗</div>
+        <div class="feat-text">
+          <strong>증빙 레저 시스템</strong>
+          <span>블록체인 기반 증빙 자동 수집·무결성 보장 (특허출원)</span>
+        </div>
+      </div>
+      <div class="brand-feat">
+        <div class="feat-icon">🛡️</div>
+        <div class="feat-text">
+          <strong>3계층 보안 필터링</strong>
+          <span>PII 탐지 · 민감정보 차단 · 보안 공격 방어</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 오른쪽 폼 -->
+  <div class="login-form-panel">
+    <div class="login-form-box">
+      <div class="form-top-logo">
+        <div class="form-logo-name">내부통제시스템</div>
+        <div class="form-logo-sub">플랜아이 · AI 내부통제 자동화 플랫폼</div>
+      </div>
+
+      <div class="form-title">로그인</div>
+      <div class="form-sub">등록된 계정으로 로그인하여<br/>내부통제 현황을 확인하세요.</div>
+
+      <div class="form-group">
+        <label class="form-label">이메일</label>
+        <input class="form-input" type="email" placeholder="name@company.com" value="namhee@planai.kr"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">비밀번호</label>
+        <input class="form-input" type="password" placeholder="••••••••" value="••••••••"/>
+      </div>
+
+      <button class="btn-login" onclick="goTo('dashboard')">로그인 →</button>
+
+      <div class="login-ai-badge">
+        <div class="ai-live-dot"></div>
+        AI 보안 연결 활성 · 3계층 보안 필터링 적용 중
+      </div>
+
+      <div class="login-footer">
+        © 2026 (주)플랜아이. All rights reserved.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════ SCREEN 2: DASHBOARD ═══════ -->
+<div id="dashboard" class="screen">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-brand-dot">PI</div>
+      <div class="topbar-name">내부통제시스템</div>
+      <div class="topbar-divider"></div>
+      <div class="topbar-sub">플랜아이 AI GRC Platform</div>
+    </div>
+    <div class="topbar-right">
+      <div class="tb-badge"><div class="tb-dot"></div>AI 모니터링 중</div>
+      <div class="tb-user">
+        <div class="tb-avatar">남</div>
+        김남희 팀장 · VX팀
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-body">
+    <div class="dash-header">
+      <div>
+        <div class="dash-greet">안녕하세요, 남희팀장님 👋</div>
+        <div class="dash-title">내부통제 현황</div>
+      </div>
+      <div class="dash-date">2026년 5월 25일 월요일</div>
+    </div>
+
+    <!-- 스탯 -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-blue">🛡️</div>
+          <div class="stat-trend">▲ 정상</div>
+        </div>
+        <div class="stat-value">98.2%</div>
+        <div class="stat-label">컴플라이언스 준수율</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-green">✅</div>
+          <div class="stat-trend">▲ 3건 해소</div>
+        </div>
+        <div class="stat-value">2건</div>
+        <div class="stat-label">미결 통제 이벤트</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-orange">📄</div>
+          <div class="stat-trend">자동 수집</div>
+        </div>
+        <div class="stat-value">147개</div>
+        <div class="stat-label">이번달 자동 수집 증빙</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-purple">🤖</div>
+          <div class="stat-trend">AI 처리</div>
+        </div>
+        <div class="stat-value">12건</div>
+        <div class="stat-label">AI 리스크 사전 차단</div>
+      </div>
+    </div>
+
+    <!-- 모듈 -->
+    <div class="sec-header">
+      <div class="sec-title">⚙️ 내부통제 모듈</div>
+      <div class="sec-hint">모듈을 클릭하여 이동</div>
+    </div>
+    <div class="module-grid">
+      <div class="mod-card mc-blue">
+        <div class="mod-icon mi-blue">📊</div>
+        <div class="mod-title">통합 대시보드</div>
+        <div class="mod-desc">전사 내부통제 현황 실시간 모니터링 및 AI 권장사항 확인</div>
+        <div class="mod-tags"><span class="mod-tag">리스크 지표</span><span class="mod-tag">알림 센터</span><span class="mod-tag">준수율</span></div>
+        <div class="mod-footer">
+          <div class="mod-status"><div class="ms-dot dot-on"></div>운영 중</div>
+          <div class="mod-arr">→</div>
+        </div>
+      </div>
+      <div class="mod-card mc-violet">
+        <div class="mod-icon mi-violet">🤖</div>
+        <div class="mod-title">AI 경영 코파일럿</div>
+        <div class="mod-desc">자연어 정책 설정 및 실시간 컴플라이언스 Q&A 자동화 (특허기술)</div>
+        <div class="mod-tags"><span class="mod-tag">정책 컴파일러</span><span class="mod-tag">대화형 AI</span></div>
+        <div class="mod-footer">
+          <div class="mod-status"><div class="ms-dot dot-on"></div>운영 중</div>
+          <div class="mod-arr">→</div>
+        </div>
+      </div>
+      <div class="mod-card mc-teal">
+        <div class="mod-icon mi-teal">💰</div>
+        <div class="mod-title">재무 통제</div>
+        <div class="mod-desc">지출 승인, 증빙 자동 수집, 이상 지출 탐지 자동화</div>
+        <div class="mod-tags"><span class="mod-tag">결재 프로세스</span><span class="mod-tag">OCR 증빙</span></div>
+        <div class="mod-footer">
+          <div class="mod-status"><div class="ms-dot dot-on"></div>운영 중</div>
+          <div class="mod-arr">→</div>
+        </div>
+      </div>
+      <div class="mod-card mc-green">
+        <div class="mod-icon mi-green">📄</div>
+        <div class="mod-title">계약 & 법무</div>
+        <div class="mod-desc">전자계약, AI 리스크 분석, 주주간 계약 관리 자동화</div>
+        <div class="mod-tags"><span class="mod-tag">전자서명</span><span class="mod-tag">계약 분석</span></div>
+        <div class="mod-footer">
+          <div class="mod-status"><div class="ms-dot dot-on"></div>운영 중</div>
+          <div class="mod-arr">→</div>
+        </div>
+      </div>
+      <div class="mod-card mc-red">
+        <div class="mod-icon mi-red">👥</div>
+        <div class="mod-title">HR 통제</div>
+        <div class="mod-desc">권한 관리(RBAC), 근태 자동화, 인사문서 관리</div>
+        <div class="mod-tags"><span class="mod-tag">RBAC</span><span class="mod-tag">근태 관리</span></div>
+        <div class="mod-footer">
+          <div class="mod-status"><div class="ms-dot dot-on"></div>운영 중</div>
+          <div class="mod-arr">→</div>
+        </div>
+      </div>
+      <div class="mod-card mc-orange">
+        <div class="mod-icon mi-orange">🛡️</div>
+        <div class="mod-title">보안 센터</div>
+        <div class="mod-desc">3계층 보안 — PII 필터링, 민감정보 차단, 보안 공격 방어</div>
+        <div class="mod-tags"><span class="mod-tag">PII 탐지</span><span class="mod-tag">ISMS 대비</span></div>
+        <div class="mod-footer">
+          <div class="mod-status"><div class="ms-dot dot-on"></div>운영 중</div>
+          <div class="mod-arr">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OKR 강조 -->
+    <div class="sec-header">
+      <div class="sec-title">🧭 성과 관리</div>
+    </div>
+    <div class="okr-highlight" onclick="goTo('okr')">
+      <div class="okr-hl-icon">🧭</div>
+      <div class="okr-hl-body">
+        <div class="okr-hl-new">NEW · AI 협업 완성 · 2026.05.25</div>
+        <div class="okr-hl-title">THE COMPASS · OKR 성과 관리 & AI 코칭 에이전트</div>
+        <div class="okr-hl-desc">내 업무(R&R)를 입력하면 AI가 목표를 찾아드립니다. 개인 OKR → 전사 비전 자동 연결, 주간 트래킹, 리더 피드백 코칭까지.</div>
+      </div>
+      <button class="okr-hl-btn" onclick="goTo('okr')">OKR 보기 →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════ SCREEN 3: OKR ═══════ -->
+<div id="okr" class="screen">
+
+  <div class="okr-top">
+    <div class="breadcrumb">
+      <span class="bc bc-brand">플랜아이</span>
+      <span class="bc-sep">›</span>
+      <span class="bc" onclick="goTo('dashboard')">내부통제시스템</span>
+      <span class="bc-sep">›</span>
+      <span class="bc active">🧭 OKR 성과 관리</span>
+    </div>
+    <div class="okr-actions">
+      <button class="btn-line" onclick="goTo('dashboard')">← 대시보드</button>
+      <button class="btn-fill">+ 새 OKR 추가</button>
+    </div>
+  </div>
+
+  <div class="okr-body">
+
+    <!-- Vision Map -->
+    <div class="vision-card">
+      <div class="vc-label">🌟 Vision Map · 나의 업무(R&R)가 회사 비전으로 연결되는 경로</div>
+
+      <div class="company-goal-box">
+        <div class="cg-icon">⭐</div>
+        <div>
+          <div class="cg-title">회사 비전 (Company Vision)</div>
+          <div class="cg-desc">AI 기반 스타트업 내부통제 자동화 플랫폼 "내부통제시스템" MVP 출시 및 TIPS R&D 과제 목표 달성<br/>— 스타트업이 올바른 경영 습관을 자동으로 만들어가는 세상</div>
+        </div>
+      </div>
+
+      <div class="laser-area">
+        <div class="laser"></div>
+        <div class="laser"></div>
+        <div class="laser"></div>
+      </div>
+
+      <div class="rr-chips">
+        <div class="rr-chip"><div class="rr-chip-dot"></div>UX/UI 서비스 기획</div>
+        <div class="rr-chip"><div class="rr-chip-dot"></div>사용자 리서치 & 페르소나</div>
+        <div class="rr-chip"><div class="rr-chip-dot"></div>IA 설계 & 와이어프레임</div>
+        <div class="rr-chip"><div class="rr-chip-dot"></div>Figma 프로토타입</div>
+        <div class="rr-chip"><div class="rr-chip-dot"></div>개발팀 핸드오프</div>
+      </div>
+
+      <div class="ai-box">
+        <div class="ai-box-icon">🤖</div>
+        <div><strong>AI Alignment Coach 분석:</strong> 남희팀장님의 "UX/UI 기획 & 프로토타입 제작" 업무는 플랜아이 핵심 목표인 <strong>내부통제시스템 MVP 출시 및 제품 사용성 검증</strong>과 직접 연결됩니다. → <em>"내부통제시스템 MVP UX 설계 완성으로 개발팀 착수 가능 상태 달성"</em>을 2분기 목표로 설정합니다.</div>
+      </div>
+    </div>
+
+    <!-- Objective -->
+    <div class="obj-card">
+      <div class="obj-badge">Objective · 2026년 2분기 (6–8월) · VX팀 김남희</div>
+      <div class="obj-main">내부통제시스템 MVP UX 설계를 완성하여, 개발팀이 바로 착수할 수 있는 핸드오프 상태를 만든다</div>
+      <div class="obj-sub">AI와의 협업을 통해 사용자 중심의 내부통제 플랫폼 UX를 설계하고, 디자이너·개발자가 실행 가능한 프로토타입을 완성한다.</div>
+    </div>
+
+    <div class="kr-sec-lbl">Key Results</div>
+    <div class="kr-list">
+      <div class="kr-card">
+        <div class="kr-top">
+          <div class="kr-left">
+            <div class="kr-num">KR 1</div>
+            <div class="kr-text">핵심 사용자 3페르소나 정의 및 User Journey Map 완성</div>
+          </div>
+          <div class="kr-right">
+            <div class="kr-dl">📅 6월 말</div>
+            <div class="kr-pct">10%</div>
+          </div>
+        </div>
+        <div class="prog-wrap"><div class="prog-fill" style="width:10%"></div></div>
+      </div>
+      <div class="kr-card">
+        <div class="kr-top">
+          <div class="kr-left">
+            <div class="kr-num">KR 2</div>
+            <div class="kr-text">MVP 범위 모듈 3개 선정 및 IA(정보구조) + 화면 목록 확정</div>
+          </div>
+          <div class="kr-right">
+            <div class="kr-dl">📅 6월 말</div>
+            <div class="kr-pct">5%</div>
+          </div>
+        </div>
+        <div class="prog-wrap"><div class="prog-fill" style="width:5%"></div></div>
+      </div>
+      <div class="kr-card">
+        <div class="kr-top">
+          <div class="kr-left">
+            <div class="kr-num">KR 3</div>
+            <div class="kr-text">Figma 기반 Mid-fi 와이어프레임 및 인터랙티브 프로토타입 완성</div>
+          </div>
+          <div class="kr-right">
+            <div class="kr-dl">📅 7월 말</div>
+            <div class="kr-pct">0%</div>
+          </div>
+        </div>
+        <div class="prog-wrap"><div class="prog-fill" style="width:0%"></div></div>
+      </div>
+      <div class="kr-card">
+        <div class="kr-top">
+          <div class="kr-left">
+            <div class="kr-num">KR 4</div>
+            <div class="kr-text">디자이너·개발자 핸드오프 문서 (스펙시트 + Figma 링크) 완성 및 전달</div>
+          </div>
+          <div class="kr-right">
+            <div class="kr-dl">📅 8월 말</div>
+            <div class="kr-pct">0%</div>
+          </div>
+        </div>
+        <div class="prog-wrap"><div class="prog-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- AI Squad -->
+    <div class="agent-label">🤖 AI 협업 방식 (THE COMPASS · The Squad)</div>
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="ag-icon">🏛️</div>
+        <div class="ag-role">Vision Architect</div>
+        <div class="ag-name">제품 방향 설계</div>
+        <div class="ag-desc">TIPS 계획서 & PRD 분석 → 핵심 기능 범위 정의</div>
+      </div>
+      <div class="agent-card">
+        <div class="ag-icon">🔍</div>
+        <div class="ag-role">Onboarding Specialist</div>
+        <div class="ag-name">사용자 리서치</div>
+        <div class="ag-desc">내부통제 담당자 페르소나 도출 및 Pain Point 분석</div>
+      </div>
+      <div class="agent-card">
+        <div class="ag-icon">🧩</div>
+        <div class="ag-role">Alignment Coach</div>
+        <div class="ag-name">UX 방향 정렬</div>
+        <div class="ag-desc">사용자 니즈 ↔ 제품 기능 연결 → IA & 화면 설계</div>
+      </div>
+      <div class="agent-card">
+        <div class="ag-icon">🚀</div>
+        <div class="ag-role">Delivery Manager</div>
+        <div class="ag-name">실행 & 핸드오프</div>
+        <div class="ag-desc">매주 목요일 보고 → 프로토타입 → 개발팀 전달</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
