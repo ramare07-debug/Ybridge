@@ -6,329 +6,249 @@
 <title>플랜아이 내부통제시스템</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-:root {
-  --black: #0a0a0a;
-  --navy: #0f1f3d;
-  --blue: #1a4fd6;
-  --blue-lt: #3b6ef8;
-  --gray-50: #f8f9fb;
-  --gray-100:#f1f3f7;
-  --gray-200:#e4e7ef;
-  --gray-400:#9ba3b8;
-  --gray-600:#5a6380;
-  --white: #ffffff;
-  --success: #0ea66b;
-  --warn: #f59e0b;
-  --danger: #e53935;
-  --radius: 14px;
-  --shadow: 0 4px 24px rgba(10,20,60,0.08);
-  --shadow-lg: 0 16px 48px rgba(10,20,60,0.13);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); color: var(--black); min-height: 100vh; }
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: flex; }
-
-/* ══════════════ LOGIN ══════════════ */
-#login { flex-direction: row; min-height: 100vh; }
-.login-brand { width: 52%; background: var(--navy); display: flex; flex-direction: column; justify-content: space-between; padding: 52px 60px; position: relative; overflow: hidden; }
-.brand-bg-text { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.bbt-word { position: absolute; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: rgba(255,255,255,0.03); white-space: nowrap; letter-spacing: -2px; user-select: none; }
-.bbt-word:nth-child(1) { font-size: 140px; top: -30px; left: -20px; }
-.bbt-word:nth-child(2) { font-size: 80px; top: 200px; right: -40px; color: rgba(26,79,214,0.08); }
-.bbt-word:nth-child(3) { font-size: 100px; bottom: 100px; left: -10px; }
-.bbt-word:nth-child(4) { font-size: 60px; bottom: 240px; right: 20px; }
-.brand-logo-area { position: relative; z-index: 1; }
-.brand-plani { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.brand-plani-dot { width: 32px; height: 32px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-.brand-plani-dot svg { width: 18px; height: 18px; }
-.brand-plani-name { font-size: 1.05rem; font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; }
-.brand-divider { width: 40px; height: 2px; background: var(--blue); margin: 20px 0; }
-.brand-headline { position: relative; z-index: 1; }
-.brand-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 3px; color: var(--blue-lt); text-transform: uppercase; margin-bottom: 18px; }
-.brand-title { font-size: 3rem; font-weight: 900; line-height: 1.2; color: var(--white); margin-bottom: 20px; word-break: keep-all; }
-.brand-title em { font-style: normal; color: var(--blue-lt); }
-.brand-desc { font-size: 0.95rem; color: rgba(255,255,255,0.5); line-height: 1.8; word-break: keep-all; }
-.brand-features { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 14px; }
-.brand-feat { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
-.feat-icon { width: 36px; height: 36px; background: rgba(26,79,214,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
-.feat-text strong { display: block; font-size: 0.875rem; font-weight: 700; color: var(--white); margin-bottom: 2px; }
-.feat-text span { font-size: 0.775rem; color: rgba(255,255,255,0.45); }
-.consult-btn-wrap { position: relative; z-index: 1; margin-top: 28px; }
-.consult-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px 22px; background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 14px; color: white; font-family: inherit; cursor: pointer; transition: all 0.25s; text-align: left; }
-.consult-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
-.consult-btn-left strong { display: block; font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
-.consult-btn-left span { font-size: 0.775rem; color: rgba(255,255,255,0.5); }
-.consult-btn-arr { font-size: 1.2rem; opacity: 0.6; }
-.login-form-panel { width: 48%; display: flex; align-items: center; justify-content: center; padding: 60px 48px; background: var(--white); }
-.login-form-box { width: 100%; max-width: 380px; }
-.form-top-logo { margin-bottom: 40px; }
-.form-logo-name { font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
-.form-logo-sub { font-size: 0.8rem; color: var(--gray-400); letter-spacing: 0.5px; }
-.form-title { font-size: 1.8rem; font-weight: 900; color: var(--black); margin-bottom: 6px; }
-.form-sub { font-size: 0.875rem; color: var(--gray-600); margin-bottom: 36px; line-height: 1.6; }
-.form-group { margin-bottom: 18px; }
-.form-label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--gray-600); letter-spacing: 0.5px; margin-bottom: 8px; }
-.form-input { width: 100%; padding: 14px 16px; background: var(--gray-50); border: 1.5px solid var(--gray-200); border-radius: 10px; color: var(--black); font-size: 0.925rem; font-family: inherit; outline: none; transition: all 0.2s; }
-.form-input:focus { border-color: var(--blue); background: var(--white); box-shadow: 0 0 0 3px rgba(26,79,214,0.08); }
-.form-input::placeholder { color: var(--gray-400); }
-.btn-login { width: 100%; padding: 15px; background: var(--navy); border: none; border-radius: 10px; color: white; font-size: 0.95rem; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; transition: all 0.25s; letter-spacing: 0.5px; }
-.btn-login:hover { background: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,79,214,0.3); }
-.login-ai-badge { display: flex; align-items: center; gap: 10px; margin-top: 24px; padding: 12px 16px; background: #f0faf6; border: 1px solid #c3ead8; border-radius: 10px; font-size: 0.8rem; color: #0a7a50; font-weight: 500; }
-.ai-live-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; flex-shrink: 0; animation: blink 2s infinite; }
-@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-.login-footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--gray-200); font-size: 0.75rem; color: var(--gray-400); text-align: center; }
-.login-footer a { color: var(--gray-400); text-decoration: none; }
-.login-footer a:hover { color: var(--navy); }
-
-/* ══════════════ TOPBAR ══════════════ */
-.topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 64px; background: var(--white); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 100; }
-.topbar-left { display: flex; align-items: center; gap: 10px; }
-.topbar-brand-dot { width: 28px; height: 28px; background: var(--navy); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 900; color: white; font-family: 'Space Grotesk', sans-serif; }
-.topbar-name { font-size: 1rem; font-weight: 800; color: var(--navy); }
-.topbar-divider { width: 1px; height: 18px; background: var(--gray-200); margin: 0 6px; }
-.topbar-sub { font-size: 0.8rem; color: var(--gray-400); }
-.topbar-right { display: flex; align-items: center; gap: 14px; }
-.tb-badge { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; padding: 5px 12px; background: #f0faf6; border: 1px solid #c3ead8; border-radius: 20px; color: #0a7a50; font-weight: 600; }
-.tb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); animation: blink 2s infinite; }
-
-/* ── 프로필 드롭다운 ── */
-.tb-user-wrap { position: relative; }
-.tb-user {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 0.825rem; color: var(--gray-600);
-  cursor: pointer; padding: 6px 10px; border-radius: 10px;
-  transition: background 0.2s;
-  user-select: none;
-}
-.tb-user:hover { background: var(--gray-100); }
-.tb-avatar { width: 32px; height: 32px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: white; flex-shrink: 0; }
-.tb-user-name { font-weight: 600; color: var(--black); }
-.tb-caret { font-size: 0.65rem; color: var(--gray-400); margin-left: 2px; transition: transform 0.2s; }
-.tb-user-wrap.open .tb-caret { transform: rotate(180deg); }
-
-.profile-dropdown {
-  display: none;
-  position: absolute; top: calc(100% + 10px); right: 0;
-  width: 230px;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 14px;
-  box-shadow: 0 12px 40px rgba(10,20,60,0.14);
-  overflow: hidden;
-  z-index: 999;
-  animation: dropFade 0.18s ease;
-}
-.tb-user-wrap.open .profile-dropdown { display: block; }
-
-@keyframes dropFade {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.profile-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px 18px;
-  background: var(--gray-50);
-  border-bottom: 1px solid var(--gray-200);
-}
-.profile-avatar-lg {
-  width: 40px; height: 40px; background: var(--navy);
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; font-weight: 700; color: white; flex-shrink: 0;
-}
-.profile-info-name { font-size: 0.875rem; font-weight: 800; color: var(--black); }
-.profile-info-role { font-size: 0.75rem; color: var(--gray-400); margin-top: 1px; }
-
-.profile-menu { padding: 6px 0; }
-.profile-menu-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 11px 18px;
-  font-size: 0.85rem; color: var(--gray-600);
-  cursor: pointer; transition: all 0.15s;
-  border: none; background: none; width: 100%;
-  text-align: left; font-family: inherit;
-}
-.profile-menu-item:hover { background: var(--gray-50); color: var(--black); }
-.profile-menu-item .pm-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; background: var(--gray-100); }
-.profile-menu-divider { height: 1px; background: var(--gray-200); margin: 6px 0; }
-.profile-menu-item.logout { color: var(--danger); }
-.profile-menu-item.logout:hover { background: #fff5f5; }
-.profile-menu-item.logout .pm-icon { background: #ffeaea; }
-
-/* ══════════════ DASHBOARD ══════════════ */
-#dashboard { flex-direction: column; background: var(--gray-50); }
-.dash-body { flex: 1; padding: 40px 44px; max-width: 1280px; margin: 0 auto; width: 100%; }
-.dash-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; }
-.dash-greet { font-size: 0.875rem; color: var(--gray-600); margin-bottom: 6px; }
-.dash-title { font-size: 2rem; font-weight: 900; color: var(--black); letter-spacing: -0.5px; }
-.dash-date { font-size: 0.825rem; color: var(--gray-400); }
-.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 36px; }
-.stat-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); transition: all 0.25s; }
-.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-.stat-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-.stat-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
-.si-blue { background: #eff3ff; } .si-green { background: #f0faf6; } .si-orange { background: #fff7ed; } .si-purple { background: #f5f3ff; }
-.stat-trend { font-size: 0.72rem; font-weight: 600; color: var(--success); background: #f0faf6; padding: 3px 8px; border-radius: 20px; }
-.stat-value { font-size: 1.9rem; font-weight: 900; color: var(--black); font-family: 'Space Grotesk', sans-serif; letter-spacing: -1px; margin-bottom: 4px; }
-.stat-label { font-size: 0.8rem; color: var(--gray-600); }
-.sec-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.sec-title { font-size: 1.05rem; font-weight: 800; color: var(--black); }
-.sec-hint { font-size: 0.8rem; color: var(--gray-400); }
-.module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
-.mod-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 24px; cursor: pointer; transition: all 0.25s; box-shadow: var(--shadow); position: relative; overflow: hidden; }
-.mod-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.25s; }
-.mod-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--gray-400); }
-.mod-card:hover::after { opacity: 1; }
-.mc-blue::after { background: linear-gradient(90deg, var(--blue), var(--blue-lt)); }
-.mc-green::after { background: linear-gradient(90deg, #0ea66b, #34d399); }
-.mc-orange::after { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-.mc-red::after { background: linear-gradient(90deg, #e53935, #f87171); }
-.mc-violet::after { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
-.mc-teal::after { background: linear-gradient(90deg, #0891b2, #22d3ee); }
-.mod-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 14px; }
-.mi-blue { background: #eff3ff; } .mi-green { background: #f0faf6; } .mi-orange { background: #fff7ed; } .mi-red { background: #fef2f2; } .mi-violet { background: #f5f3ff; } .mi-teal { background: #ecfeff; }
-.mod-title { font-size: 0.975rem; font-weight: 800; color: var(--black); margin-bottom: 6px; }
-.mod-desc { font-size: 0.8rem; color: var(--gray-600); line-height: 1.5; margin-bottom: 14px; }
-.mod-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.mod-tag { font-size: 0.7rem; padding: 3px 9px; background: var(--gray-100); border-radius: 20px; color: var(--gray-600); }
-.mod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-100); }
-.mod-status { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--gray-600); }
-.ms-dot { width: 6px; height: 6px; border-radius: 50%; }
-.dot-on { background: var(--success); } .dot-off { background: var(--warn); }
-.mod-arr { font-size: 0.8rem; color: var(--gray-400); }
-.okr-highlight { background: var(--navy); border-radius: var(--radius); padding: 28px 32px; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; gap: 28px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
-.okr-highlight::before { content: 'OKR'; position: absolute; right: 32px; top: 50%; transform: translateY(-50%); font-family: 'Space Grotesk', sans-serif; font-size: 6rem; font-weight: 900; color: rgba(255,255,255,0.04); pointer-events: none; }
-.okr-highlight:hover { transform: translateY(-3px); box-shadow: 0 24px 56px rgba(15,31,61,0.25); }
-.okr-hl-icon { width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
-.okr-hl-body { flex: 1; }
-.okr-hl-new { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; color: var(--blue-lt); background: rgba(59,110,248,0.2); padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
-.okr-hl-title { font-size: 1.15rem; font-weight: 800; color: var(--white); margin-bottom: 6px; }
-.okr-hl-desc { font-size: 0.825rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
-.okr-hl-btn { flex-shrink: 0; padding: 12px 22px; background: var(--blue); border: none; border-radius: 10px; color: white; font-size: 0.85rem; font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-.okr-hl-btn:hover { background: var(--blue-lt); }
-
-/* ══════════════ OKR ══════════════ */
-#okr { flex-direction: column; background: var(--gray-50); }
-.okr-top { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 64px; background: var(--white); border-bottom: 1px solid var(--gray-200); }
-.breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; }
-.bc { color: var(--gray-400); cursor: pointer; transition: color 0.2s; }
-.bc:hover { color: var(--black); }
-.bc.active { color: var(--black); font-weight: 700; }
-.bc-sep { color: var(--gray-200); }
-.bc-brand { font-weight: 800; color: var(--navy); }
-.okr-actions { display: flex; gap: 10px; }
-.btn-line { padding: 9px 18px; background: transparent; border: 1.5px solid var(--gray-200); border-radius: 9px; color: var(--gray-600); font-size: 0.825rem; font-family: inherit; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-.btn-line:hover { border-color: var(--navy); color: var(--navy); }
-.btn-fill { padding: 9px 18px; background: var(--navy); border: none; border-radius: 9px; color: white; font-size: 0.825rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.2s; }
-.btn-fill:hover { background: var(--blue); }
-.okr-body { flex: 1; padding: 36px 44px; max-width: 1020px; margin: 0 auto; width: 100%; }
-.vision-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 18px; padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow); }
-.vc-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; color: var(--blue); text-transform: uppercase; margin-bottom: 20px; }
-.company-goal-box { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: #eff3ff; border: 1px solid #d4deff; border-radius: 12px; margin-bottom: 20px; }
-.cg-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
-.cg-title { font-size: 0.85rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
-.cg-desc { font-size: 0.825rem; color: var(--gray-600); line-height: 1.6; }
-.laser-area { display: flex; flex-direction: column; align-items: center; gap: 5px; margin: 18px 0; }
-.laser { height: 2px; border-radius: 2px; animation: laser-ani 2.5s ease-in-out infinite; }
-.laser:nth-child(1) { width:52%; background: linear-gradient(90deg,transparent,var(--blue),transparent); }
-.laser:nth-child(2) { width:36%; background: linear-gradient(90deg,transparent,var(--blue-lt),transparent); animation-delay:.4s; }
-.laser:nth-child(3) { width:22%; background: linear-gradient(90deg,transparent,#93c5fd,transparent); animation-delay:.8s; }
-@keyframes laser-ani { 0%,100% { opacity:.25; } 50% { opacity:1; } }
-.rr-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-.rr-chip { display: flex; align-items: center; gap: 7px; padding: 8px 14px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 8px; font-size: 0.8rem; color: var(--gray-600); }
-.rr-chip-dot { width:6px; height:6px; border-radius:50%; background:var(--blue); flex-shrink:0; }
-.ai-box { display: flex; gap: 12px; padding: 14px 18px; background: #f0faf6; border: 1px solid #c3ead8; border-radius: 12px; font-size: 0.825rem; color: #0a7a50; line-height: 1.6; }
-.ai-box-icon { flex-shrink:0; font-size:1.1rem; margin-top:2px; }
-.obj-card { background: var(--navy); border-radius: 16px; padding: 28px 32px; margin-bottom: 18px; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
-.obj-card::after { content: 'O'; position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-family: 'Space Grotesk', sans-serif; font-size: 7rem; font-weight: 900; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; }
-.obj-badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; color: var(--blue-lt); text-transform: uppercase; margin-bottom: 10px; }
-.obj-main { font-size: 1.15rem; font-weight: 800; color: var(--white); line-height: 1.5; margin-bottom: 6px; }
-.obj-sub { font-size: 0.825rem; color: rgba(255,255,255,0.5); }
-.kr-sec-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; color: var(--gray-400); text-transform: uppercase; margin-bottom: 12px; }
-.kr-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
-.kr-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 14px; padding: 20px 24px; box-shadow: var(--shadow); transition: all 0.25s; position: relative; }
-.kr-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--gray-400); }
-.kr-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 14px 0 0 14px; }
-.kr-card:nth-child(1)::before { background: var(--blue); }
-.kr-card:nth-child(2)::before { background: var(--success); }
-.kr-card:nth-child(3)::before { background: var(--warn); }
-.kr-card:nth-child(4)::before { background: #7c3aed; }
-.kr-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
-.kr-left .kr-num { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; color: var(--gray-400); text-transform: uppercase; margin-bottom: 6px; }
-.kr-left .kr-text { font-size: 0.925rem; font-weight: 700; color: var(--black); line-height: 1.5; }
-.kr-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; margin-left: 20px; }
-.kr-dl { font-size: 0.75rem; padding: 4px 10px; background: var(--gray-100); border-radius: 20px; color: var(--gray-600); white-space: nowrap; }
-.kr-pct { font-size: 0.85rem; font-weight: 800; color: var(--navy); }
-.prog-wrap { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
-.prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--blue-lt)); }
-.agent-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; color: var(--gray-400); text-transform: uppercase; margin-bottom: 12px; }
-.agent-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
-.agent-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; padding: 18px; box-shadow: var(--shadow); transition: all 0.25s; }
-.agent-card:hover { border-color: var(--navy); transform: translateY(-2px); }
-.ag-icon { font-size: 1.4rem; margin-bottom: 10px; }
-.ag-role { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; color: var(--blue); text-transform: uppercase; margin-bottom: 4px; }
-.ag-name { font-size: 0.875rem; font-weight: 800; color: var(--black); margin-bottom: 4px; }
-.ag-desc { font-size: 0.75rem; color: var(--gray-600); line-height: 1.4; }
-
-/* ══════════════ CONSULT ══════════════ */
-#consult { flex-direction: column; background: var(--gray-50); }
-.consult-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 64px; background: var(--white); border-bottom: 1px solid var(--gray-200); }
-.consult-body { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 52px 24px; }
-.consult-card { width: 100%; max-width: 580px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 20px; padding: 44px 48px; box-shadow: var(--shadow-lg); }
-.consult-header { margin-bottom: 32px; }
-.consult-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; color: var(--blue); text-transform: uppercase; background: #eff3ff; padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
-.consult-title { font-size: 1.6rem; font-weight: 900; color: var(--black); margin-bottom: 8px; }
-.consult-sub { font-size: 0.875rem; color: var(--gray-600); line-height: 1.6; }
-.consult-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.consult-form-row .form-group { margin-bottom: 0; }
-.form-required { color: var(--danger); margin-left: 2px; }
-.consult-textarea { width: 100%; padding: 14px 16px; min-height: 110px; resize: vertical; background: var(--gray-50); border: 1.5px solid var(--gray-200); border-radius: 10px; color: var(--black); font-size: 0.9rem; font-family: inherit; outline: none; transition: all 0.2s; }
-.consult-textarea:focus { border-color: var(--blue); background: var(--white); box-shadow: 0 0 0 3px rgba(26,79,214,0.08); }
-.consult-textarea::placeholder { color: var(--gray-400); }
-.btn-submit { width: 100%; padding: 16px; background: var(--navy); border: none; border-radius: 12px; color: white; font-size: 1rem; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; transition: all 0.25s; }
-.btn-submit:hover { background: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,79,214,0.3); }
-.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-.consult-success { display: none; text-align: center; padding: 32px 0; }
-.consult-success .s-icon { font-size: 3rem; margin-bottom: 16px; }
-.consult-success .s-title { font-size: 1.3rem; font-weight: 800; color: var(--black); margin-bottom: 8px; }
-.consult-success .s-desc { font-size: 0.875rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 24px; }
-
-/* ══════════════ ADMIN ══════════════ */
-#admin { flex-direction: column; background: var(--gray-50); }
-.admin-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 64px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.1); }
-.admin-logo { font-size: 1rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; }
-.admin-badge { font-size: 0.7rem; padding: 3px 10px; background: rgba(255,255,255,0.1); border-radius: 20px; color: rgba(255,255,255,0.7); }
-.admin-body { flex: 1; padding: 36px 40px; }
-.admin-login-wrap { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 64px); }
-.admin-login-card { width: 100%; max-width: 360px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 16px; padding: 36px; box-shadow: var(--shadow-lg); text-align: center; }
-.admin-login-icon { font-size: 2.5rem; margin-bottom: 16px; }
-.admin-login-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
-.admin-login-sub { font-size: 0.825rem; color: var(--gray-600); margin-bottom: 24px; }
-.admin-err { font-size: 0.8rem; color: var(--danger); margin-top: 8px; display: none; }
-.admin-data { display: none; }
-.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.admin-title { font-size: 1.4rem; font-weight: 900; color: var(--black); }
-.admin-count { font-size: 0.825rem; color: var(--gray-600); }
-.admin-table-wrap { background: var(--white); border: 1px solid var(--gray-200); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
-.admin-table { width: 100%; border-collapse: collapse; }
-.admin-table th { padding: 14px 18px; background: var(--gray-50); font-size: 0.75rem; font-weight: 700; color: var(--gray-600); text-align: left; border-bottom: 1px solid var(--gray-200); text-transform: uppercase; letter-spacing: 0.5px; }
-.admin-table td { padding: 14px 18px; font-size: 0.85rem; color: var(--black); border-bottom: 1px solid var(--gray-100); vertical-align: top; }
-.admin-table tr:last-child td { border-bottom: none; }
-.admin-table tr:hover td { background: var(--gray-50); }
-.status-chip { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #eff3ff; color: var(--blue); }
-.admin-loading { text-align: center; padding: 48px; color: var(--gray-400); }
-.admin-empty { text-align: center; padding: 48px; color: var(--gray-400); font-size: 0.875rem; }
+:root{--black:#0a0a0a;--navy:#0f1f3d;--blue:#1a4fd6;--blue-lt:#3b6ef8;--gray-50:#f8f9fb;--gray-100:#f1f3f7;--gray-200:#e4e7ef;--gray-400:#9ba3b8;--gray-600:#5a6380;--white:#ffffff;--success:#0ea66b;--warn:#f59e0b;--danger:#e53935;--radius:14px;--shadow:0 4px 24px rgba(10,20,60,0.08);--shadow-lg:0 16px 48px rgba(10,20,60,0.13)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--gray-50);color:var(--black);min-height:100vh}
+.screen{display:none;min-height:100vh}.screen.active{display:flex}
+#login{flex-direction:row;min-height:100vh}
+.login-brand{width:52%;background:var(--navy);display:flex;flex-direction:column;justify-content:space-between;padding:52px 60px;position:relative;overflow:hidden}
+.brand-bg-text{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.bbt-word{position:absolute;font-family:'Space Grotesk',sans-serif;font-weight:700;color:rgba(255,255,255,0.03);white-space:nowrap;letter-spacing:-2px;user-select:none}
+.bbt-word:nth-child(1){font-size:140px;top:-30px;left:-20px}
+.bbt-word:nth-child(2){font-size:80px;top:200px;right:-40px;color:rgba(26,79,214,0.08)}
+.bbt-word:nth-child(3){font-size:100px;bottom:100px;left:-10px}
+.bbt-word:nth-child(4){font-size:60px;bottom:240px;right:20px}
+.brand-logo-area{position:relative;z-index:1}
+.brand-plani{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.brand-plani-dot{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.brand-plani-dot svg{width:18px;height:18px}
+.brand-plani-name{font-size:1.05rem;font-weight:700;color:rgba(255,255,255,0.9);letter-spacing:0.5px}
+.brand-divider{width:40px;height:2px;background:var(--blue);margin:20px 0}
+.brand-headline{position:relative;z-index:1}
+.brand-tag{font-size:0.75rem;font-weight:600;letter-spacing:3px;color:var(--blue-lt);text-transform:uppercase;margin-bottom:18px}
+.brand-title{font-size:3rem;font-weight:900;line-height:1.2;color:var(--white);margin-bottom:20px;word-break:keep-all}
+.brand-title em{font-style:normal;color:var(--blue-lt)}
+.brand-desc{font-size:0.95rem;color:rgba(255,255,255,0.5);line-height:1.8;word-break:keep-all}
+.brand-features{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px}
+.brand-feat{display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:12px}
+.feat-icon{width:36px;height:36px;background:rgba(26,79,214,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.feat-text strong{display:block;font-size:0.875rem;font-weight:700;color:var(--white);margin-bottom:2px}
+.feat-text span{font-size:0.775rem;color:rgba(255,255,255,0.45)}
+.consult-btn-wrap{position:relative;z-index:1;margin-top:28px}
+.consult-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 22px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:14px;color:white;font-family:inherit;cursor:pointer;transition:all 0.25s;text-align:left}
+.consult-btn:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);transform:translateY(-2px)}
+.consult-btn-left strong{display:block;font-size:0.95rem;font-weight:700;margin-bottom:3px}
+.consult-btn-left span{font-size:0.775rem;color:rgba(255,255,255,0.5)}
+.consult-btn-arr{font-size:1.2rem;opacity:0.6}
+.login-form-panel{width:48%;display:flex;align-items:center;justify-content:center;padding:60px 48px;background:var(--white)}
+.login-form-box{width:100%;max-width:380px}
+.form-top-logo{margin-bottom:40px}
+.form-logo-name{font-size:1.3rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+.form-logo-sub{font-size:0.8rem;color:var(--gray-400);letter-spacing:0.5px}
+.form-title{font-size:1.8rem;font-weight:900;color:var(--black);margin-bottom:6px}
+.form-sub{font-size:0.875rem;color:var(--gray-600);margin-bottom:36px;line-height:1.6}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:0.78rem;font-weight:700;color:var(--gray-600);letter-spacing:0.5px;margin-bottom:8px}
+.form-input{width:100%;padding:14px 16px;background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:10px;color:var(--black);font-size:0.925rem;font-family:inherit;outline:none;transition:all 0.2s}
+.form-input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(26,79,214,0.08)}
+.form-input::placeholder{color:var(--gray-400)}
+.btn-login{width:100%;padding:15px;background:var(--navy);border:none;border-radius:10px;color:white;font-size:0.95rem;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px;transition:all 0.25s;letter-spacing:0.5px}
+.btn-login:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,79,214,0.3)}
+.login-ai-badge{display:flex;align-items:center;gap:10px;margin-top:24px;padding:12px 16px;background:#f0faf6;border:1px solid #c3ead8;border-radius:10px;font-size:0.8rem;color:#0a7a50;font-weight:500}
+.ai-live-dot{width:8px;height:8px;background:var(--success);border-radius:50%;flex-shrink:0;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+.login-footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--gray-200);font-size:0.75rem;color:var(--gray-400);text-align:center}
+.login-footer a{color:var(--gray-400);text-decoration:none}
+.login-footer a:hover{color:var(--navy)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:var(--white);border-bottom:1px solid var(--gray-200);position:sticky;top:0;z-index:100}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.topbar-brand-dot{width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:white;font-family:'Space Grotesk',sans-serif}
+.topbar-name{font-size:1rem;font-weight:800;color:var(--navy)}
+.topbar-divider{width:1px;height:18px;background:var(--gray-200);margin:0 6px}
+.topbar-sub{font-size:0.8rem;color:var(--gray-400)}
+.topbar-right{display:flex;align-items:center;gap:14px}
+.tb-badge{display:flex;align-items:center;gap:6px;font-size:0.75rem;padding:5px 12px;background:#f0faf6;border:1px solid #c3ead8;border-radius:20px;color:#0a7a50;font-weight:600}
+.tb-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:blink 2s infinite}
+.tb-user-wrap{position:relative}
+.tb-user{display:flex;align-items:center;gap:10px;font-size:0.825rem;color:var(--gray-600);cursor:pointer;padding:6px 10px;border-radius:10px;transition:background 0.2s;user-select:none}
+.tb-user:hover{background:var(--gray-100)}
+.tb-avatar{width:32px;height:32px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:white;flex-shrink:0}
+.tb-user-name{font-weight:600;color:var(--black)}
+.tb-caret{font-size:0.65rem;color:var(--gray-400);margin-left:2px;transition:transform 0.2s}
+.tb-user-wrap.open .tb-caret{transform:rotate(180deg)}
+.profile-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;width:230px;background:var(--white);border:1px solid var(--gray-200);border-radius:14px;box-shadow:0 12px 40px rgba(10,20,60,0.14);overflow:hidden;z-index:999;animation:dropFade 0.18s ease}
+.tb-user-wrap.open .profile-dropdown{display:block}
+@keyframes dropFade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.profile-header{display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--gray-50);border-bottom:1px solid var(--gray-200)}
+.profile-avatar-lg{width:40px;height:40px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:white;flex-shrink:0}
+.profile-info-name{font-size:0.875rem;font-weight:800;color:var(--black)}
+.profile-info-role{font-size:0.75rem;color:var(--gray-400);margin-top:1px}
+.profile-menu{padding:6px 0}
+.profile-menu-item{display:flex;align-items:center;gap:12px;padding:11px 18px;font-size:0.85rem;color:var(--gray-600);cursor:pointer;transition:all 0.15s;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.profile-menu-item:hover{background:var(--gray-50);color:var(--black)}
+.profile-menu-item .pm-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;background:var(--gray-100)}
+.profile-menu-divider{height:1px;background:var(--gray-200);margin:6px 0}
+.profile-menu-item.logout{color:var(--danger)}
+.profile-menu-item.logout:hover{background:#fff5f5}
+.profile-menu-item.logout .pm-icon{background:#ffeaea}
+#dashboard{flex-direction:column;background:var(--gray-50)}
+.dash-body{flex:1;padding:40px 44px;max-width:1280px;margin:0 auto;width:100%}
+.dash-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px}
+.dash-greet{font-size:0.875rem;color:var(--gray-600);margin-bottom:6px}
+.dash-title{font-size:2rem;font-weight:900;color:var(--black);letter-spacing:-0.5px}
+.dash-date{font-size:0.825rem;color:var(--gray-400)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px}
+.stat-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);transition:all 0.25s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.stat-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.si-blue{background:#eff3ff}.si-green{background:#f0faf6}.si-orange{background:#fff7ed}.si-purple{background:#f5f3ff}
+.stat-trend{font-size:0.72rem;font-weight:600;color:var(--success);background:#f0faf6;padding:3px 8px;border-radius:20px}
+.stat-value{font-size:1.9rem;font-weight:900;color:var(--black);font-family:'Space Grotesk',sans-serif;letter-spacing:-1px;margin-bottom:4px}
+.stat-label{font-size:0.8rem;color:var(--gray-600)}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sec-title{font-size:1.05rem;font-weight:800;color:var(--black)}
+.sec-hint{font-size:0.8rem;color:var(--gray-400)}
+.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.mod-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px;cursor:pointer;transition:all 0.25s;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.mod-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;opacity:0;transition:opacity 0.25s}
+.mod-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--gray-400)}
+.mod-card:hover::after{opacity:1}
+.mc-blue::after{background:linear-gradient(90deg,var(--blue),var(--blue-lt))}
+.mc-green::after{background:linear-gradient(90deg,#0ea66b,#34d399)}
+.mc-orange::after{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.mc-red::after{background:linear-gradient(90deg,#e53935,#f87171)}
+.mc-violet::after{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+.mc-teal::after{background:linear-gradient(90deg,#0891b2,#22d3ee)}
+.mod-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px}
+.mi-blue{background:#eff3ff}.mi-green{background:#f0faf6}.mi-orange{background:#fff7ed}.mi-red{background:#fef2f2}.mi-violet{background:#f5f3ff}.mi-teal{background:#ecfeff}
+.mod-title{font-size:0.975rem;font-weight:800;color:var(--black);margin-bottom:6px}
+.mod-desc{font-size:0.8rem;color:var(--gray-600);line-height:1.5;margin-bottom:14px}
+.mod-tags{display:flex;gap:6px;flex-wrap:wrap}
+.mod-tag{font-size:0.7rem;padding:3px 9px;background:var(--gray-100);border-radius:20px;color:var(--gray-600)}
+.mod-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--gray-100)}
+.mod-status{display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--gray-600)}
+.ms-dot{width:6px;height:6px;border-radius:50%}.dot-on{background:var(--success)}.dot-off{background:var(--warn)}
+.mod-arr{font-size:0.8rem;color:var(--gray-400)}
+.okr-highlight{background:var(--navy);border-radius:var(--radius);padding:28px 32px;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:28px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.okr-highlight::before{content:'OKR';position:absolute;right:32px;top:50%;transform:translateY(-50%);font-family:'Space Grotesk',sans-serif;font-size:6rem;font-weight:900;color:rgba(255,255,255,0.04);pointer-events:none}
+.okr-highlight:hover{transform:translateY(-3px);box-shadow:0 24px 56px rgba(15,31,61,0.25)}
+.okr-hl-icon{width:60px;height:60px;background:rgba(255,255,255,0.1);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.okr-hl-body{flex:1}
+.okr-hl-new{display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:1px;color:var(--blue-lt);background:rgba(59,110,248,0.2);padding:3px 10px;border-radius:20px;margin-bottom:8px}
+.okr-hl-title{font-size:1.15rem;font-weight:800;color:var(--white);margin-bottom:6px}
+.okr-hl-desc{font-size:0.825rem;color:rgba(255,255,255,0.5);line-height:1.5}
+.okr-hl-btn{flex-shrink:0;padding:12px 22px;background:var(--blue);border:none;border-radius:10px;color:white;font-size:0.85rem;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:all 0.2s}
+.okr-hl-btn:hover{background:var(--blue-lt)}
+#okr{flex-direction:column;background:var(--gray-50)}
+.okr-top{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:var(--white);border-bottom:1px solid var(--gray-200)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:0.875rem}
+.bc{color:var(--gray-400);cursor:pointer;transition:color 0.2s}.bc:hover{color:var(--black)}.bc.active{color:var(--black);font-weight:700}
+.bc-sep{color:var(--gray-200)}.bc-brand{font-weight:800;color:var(--navy)}
+.okr-actions{display:flex;gap:10px}
+.btn-line{padding:9px 18px;background:transparent;border:1.5px solid var(--gray-200);border-radius:9px;color:var(--gray-600);font-size:0.825rem;font-family:inherit;cursor:pointer;font-weight:600;transition:all 0.2s}
+.btn-line:hover{border-color:var(--navy);color:var(--navy)}
+.btn-fill{padding:9px 18px;background:var(--navy);border:none;border-radius:9px;color:white;font-size:0.825rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all 0.2s}
+.btn-fill:hover{background:var(--blue)}
+.okr-body{flex:1;padding:36px 44px;max-width:1020px;margin:0 auto;width:100%}
+.vision-card{background:var(--white);border:1px solid var(--gray-200);border-radius:18px;padding:32px;margin-bottom:24px;box-shadow:var(--shadow)}
+.vc-label{font-size:0.7rem;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:20px}
+.company-goal-box{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:#eff3ff;border:1px solid #d4deff;border-radius:12px;margin-bottom:20px}
+.cg-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
+.cg-title{font-size:0.85rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+.cg-desc{font-size:0.825rem;color:var(--gray-600);line-height:1.6}
+.laser-area{display:flex;flex-direction:column;align-items:center;gap:5px;margin:18px 0}
+.laser{height:2px;border-radius:2px;animation:laser-ani 2.5s ease-in-out infinite}
+.laser:nth-child(1){width:52%;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.laser:nth-child(2){width:36%;background:linear-gradient(90deg,transparent,var(--blue-lt),transparent);animation-delay:.4s}
+.laser:nth-child(3){width:22%;background:linear-gradient(90deg,transparent,#93c5fd,transparent);animation-delay:.8s}
+@keyframes laser-ani{0%,100%{opacity:.25}50%{opacity:1}}
+.rr-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.rr-chip{display:flex;align-items:center;gap:7px;padding:8px 14px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;font-size:0.8rem;color:var(--gray-600)}
+.rr-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.ai-box{display:flex;gap:12px;padding:14px 18px;background:#f0faf6;border:1px solid #c3ead8;border-radius:12px;font-size:0.825rem;color:#0a7a50;line-height:1.6}
+.ai-box-icon{flex-shrink:0;font-size:1.1rem;margin-top:2px}
+.obj-card{background:var(--navy);border-radius:16px;padding:28px 32px;margin-bottom:18px;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.obj-card::after{content:'O';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-family:'Space Grotesk',sans-serif;font-size:7rem;font-weight:900;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none}
+.obj-badge{font-size:0.68rem;font-weight:700;letter-spacing:2px;color:var(--blue-lt);text-transform:uppercase;margin-bottom:10px}
+.obj-main{font-size:1.15rem;font-weight:800;color:var(--white);line-height:1.5;margin-bottom:6px}
+.obj-sub{font-size:0.825rem;color:rgba(255,255,255,0.5)}
+.kr-sec-lbl{font-size:0.72rem;font-weight:700;letter-spacing:1.5px;color:var(--gray-400);text-transform:uppercase;margin-bottom:12px}
+.kr-list{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.kr-card{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:20px 24px;box-shadow:var(--shadow);transition:all 0.25s;position:relative}
+.kr-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--gray-400)}
+.kr-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:14px 0 0 14px}
+.kr-card:nth-child(1)::before{background:var(--blue)}
+.kr-card:nth-child(2)::before{background:var(--success)}
+.kr-card:nth-child(3)::before{background:var(--warn)}
+.kr-card:nth-child(4)::before{background:#7c3aed}
+.kr-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.kr-left .kr-num{font-size:0.65rem;font-weight:700;letter-spacing:1px;color:var(--gray-400);text-transform:uppercase;margin-bottom:6px}
+.kr-left .kr-text{font-size:0.925rem;font-weight:700;color:var(--black);line-height:1.5}
+.kr-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;margin-left:20px}
+.kr-dl{font-size:0.75rem;padding:4px 10px;background:var(--gray-100);border-radius:20px;color:var(--gray-600);white-space:nowrap}
+.kr-pct{font-size:0.85rem;font-weight:800;color:var(--navy)}
+.prog-wrap{height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--blue-lt))}
+.agent-label{font-size:0.72rem;font-weight:700;letter-spacing:1.5px;color:var(--gray-400);text-transform:uppercase;margin-bottom:12px}
+.agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.agent-card{background:var(--white);border:1px solid var(--gray-200);border-radius:12px;padding:18px;box-shadow:var(--shadow);transition:all 0.25s}
+.agent-card:hover{border-color:var(--navy);transform:translateY(-2px)}
+.ag-icon{font-size:1.4rem;margin-bottom:10px}
+.ag-role{font-size:0.65rem;font-weight:700;letter-spacing:1px;color:var(--blue);text-transform:uppercase;margin-bottom:4px}
+.ag-name{font-size:0.875rem;font-weight:800;color:var(--black);margin-bottom:4px}
+.ag-desc{font-size:0.75rem;color:var(--gray-600);line-height:1.4}
+#consult{flex-direction:column;background:var(--gray-50)}
+.consult-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:var(--white);border-bottom:1px solid var(--gray-200)}
+.consult-body{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:52px 24px}
+.consult-card{width:100%;max-width:580px;background:var(--white);border:1px solid var(--gray-200);border-radius:20px;padding:44px 48px;box-shadow:var(--shadow-lg)}
+.consult-header{margin-bottom:32px}
+.consult-badge{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;background:#eff3ff;padding:5px 12px;border-radius:20px;margin-bottom:14px}
+.consult-title{font-size:1.6rem;font-weight:900;color:var(--black);margin-bottom:8px}
+.consult-sub{font-size:0.875rem;color:var(--gray-600);line-height:1.6}
+.consult-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.consult-form-row .form-group{margin-bottom:0}
+.form-required{color:var(--danger);margin-left:2px}
+.consult-textarea{width:100%;padding:14px 16px;min-height:110px;resize:vertical;background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:10px;color:var(--black);font-size:0.9rem;font-family:inherit;outline:none;transition:all 0.2s}
+.consult-textarea:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(26,79,214,0.08)}
+.consult-textarea::placeholder{color:var(--gray-400)}
+.btn-submit{width:100%;padding:16px;background:var(--navy);border:none;border-radius:12px;color:white;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px;transition:all 0.25s}
+.btn-submit:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,79,214,0.3)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.consult-success{display:none;text-align:center;padding:32px 0}
+.consult-success .s-icon{font-size:3rem;margin-bottom:16px}
+.consult-success .s-title{font-size:1.3rem;font-weight:800;color:var(--black);margin-bottom:8px}
+.consult-success .s-desc{font-size:0.875rem;color:var(--gray-600);line-height:1.6;margin-bottom:24px}
+#admin{flex-direction:column;background:var(--gray-50)}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,0.1)}
+.admin-logo{font-size:1rem;font-weight:800;color:white;display:flex;align-items:center;gap:10px}
+.admin-badge{font-size:0.7rem;padding:3px 10px;background:rgba(255,255,255,0.1);border-radius:20px;color:rgba(255,255,255,0.7)}
+.admin-body{flex:1;padding:36px 40px}
+.admin-login-wrap{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 64px)}
+.admin-login-card{width:100%;max-width:360px;background:var(--white);border:1px solid var(--gray-200);border-radius:16px;padding:36px;box-shadow:var(--shadow-lg);text-align:center}
+.admin-login-icon{font-size:2.5rem;margin-bottom:16px}
+.admin-login-title{font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.admin-login-sub{font-size:0.825rem;color:var(--gray-600);margin-bottom:24px}
+.admin-err{font-size:0.8rem;color:var(--danger);margin-top:8px;display:none}
+.admin-data{display:none}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.admin-title{font-size:1.4rem;font-weight:900;color:var(--black)}
+.admin-count{font-size:0.825rem;color:var(--gray-600)}
+.admin-table-wrap{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.admin-table{width:100%;border-collapse:collapse}
+.admin-table th{padding:14px 18px;background:var(--gray-50);font-size:0.75rem;font-weight:700;color:var(--gray-600);text-align:left;border-bottom:1px solid var(--gray-200);text-transform:uppercase;letter-spacing:0.5px}
+.admin-table td{padding:14px 18px;font-size:0.85rem;color:var(--black);border-bottom:1px solid var(--gray-100);vertical-align:top}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-table tr:hover td{background:var(--gray-50)}
+.status-chip{display:inline-block;font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:20px;background:#eff3ff;color:var(--blue)}
+.admin-loading{text-align:center;padding:48px;color:var(--gray-400)}
+.admin-empty{text-align:center;padding:48px;color:var(--gray-400);font-size:0.875rem}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════
-     SCREEN 1: LOGIN
-═══════════════════════════════ -->
+<!-- LOGIN -->
 <div id="login" class="screen active">
-  <!-- 왼쪽 브랜드 패널 -->
   <div class="login-brand">
     <div class="brand-bg-text">
       <div class="bbt-word">CONTROL</div>
@@ -339,12 +259,7 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
     <div class="brand-logo-area">
       <div class="brand-plani">
         <div class="brand-plani-dot">
-          <svg viewBox="0 0 18 18" fill="none">
-            <rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/>
-            <rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".6"/>
-            <rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".6"/>
-            <rect x="10" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".3"/>
-          </svg>
+          <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".6"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".6"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".3"/></svg>
         </div>
         <span class="brand-plani-name">PLAN·I</span>
       </div>
@@ -357,41 +272,18 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
     </div>
     <div>
       <div class="brand-features">
-        <div class="brand-feat">
-          <div class="feat-icon">🤖</div>
-          <div class="feat-text">
-            <strong>AI 기반 자동 점검</strong>
-            <span>내부통제 항목 실시간 모니터링</span>
-          </div>
-        </div>
-        <div class="brand-feat">
-          <div class="feat-icon">🎯</div>
-          <div class="feat-text">
-            <strong>OKR 성과 연동</strong>
-            <span>목표와 내부통제의 통합 관리</span>
-          </div>
-        </div>
-        <div class="brand-feat">
-          <div class="feat-icon">🔒</div>
-          <div class="feat-text">
-            <strong>규정 준수 자동화</strong>
-            <span>TIPS R&amp;D 기준 컴플라이언스 지원</span>
-          </div>
-        </div>
+        <div class="brand-feat"><div class="feat-icon">🤖</div><div class="feat-text"><strong>AI 기반 자동 점검</strong><span>내부통제 항목 실시간 모니터링</span></div></div>
+        <div class="brand-feat"><div class="feat-icon">🎯</div><div class="feat-text"><strong>OKR 성과 연동</strong><span>목표와 내부통제의 통합 관리</span></div></div>
+        <div class="brand-feat"><div class="feat-icon">🔒</div><div class="feat-text"><strong>규정 준수 자동화</strong><span>TIPS R&amp;D 기준 컴플라이언스 지원</span></div></div>
       </div>
       <div class="consult-btn-wrap">
         <button class="consult-btn" onclick="goTo('consult')">
-          <div class="consult-btn-left">
-            <strong>📋 도입 상담 신청</strong>
-            <span>내부통제시스템 도입을 검토 중이신가요?</span>
-          </div>
+          <div class="consult-btn-left"><strong>📋 도입 상담 신청</strong><span>내부통제시스템 도입을 검토 중이신가요?</span></div>
           <span class="consult-btn-arr">→</span>
         </button>
       </div>
     </div>
   </div>
-
-  <!-- 오른쪽 폼 패널 -->
   <div class="login-form-panel">
     <div class="login-form-box">
       <div class="form-top-logo">
@@ -406,8 +298,7 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
       </div>
       <div class="form-group">
         <label class="form-label">비밀번호</label>
-        <input class="form-input" type="password" placeholder="••••••••" id="loginPw"
-          onkeydown="if(event.key==='Enter')doLogin()"/>
+        <input class="form-input" type="password" placeholder="••••••••" id="loginPw" onkeydown="if(event.key==='Enter')doLogin()"/>
       </div>
       <button class="btn-login" onclick="doLogin()">로그인</button>
       <div class="login-ai-badge">
@@ -422,11 +313,8 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
   </div>
 </div>
 
-<!-- ═══════════════════════════════
-     SCREEN 2: DASHBOARD
-═══════════════════════════════ -->
+<!-- DASHBOARD -->
 <div id="dashboard" class="screen">
-  <!-- 상단 네비게이션 -->
   <div class="topbar">
     <div class="topbar-left">
       <div class="topbar-brand-dot">Y</div>
@@ -435,11 +323,7 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
       <span class="topbar-sub">Y-Bridge</span>
     </div>
     <div class="topbar-right">
-      <div class="tb-badge">
-        <div class="tb-dot"></div>
-        AI 엔진 가동 중
-      </div>
-      <!-- 프로필 드롭다운 -->
+      <div class="tb-badge"><div class="tb-dot"></div>AI 엔진 가동 중</div>
       <div class="tb-user-wrap" id="profileWrap">
         <div class="tb-user" onclick="toggleProfile()">
           <div class="tb-avatar">남</div>
@@ -455,29 +339,17 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
             </div>
           </div>
           <div class="profile-menu">
-            <button class="profile-menu-item" onclick="alert('내 프로필 준비 중입니다.')">
-              <span class="pm-icon">👤</span> 내 프로필
-            </button>
-            <button class="profile-menu-item" onclick="alert('알림 설정 준비 중입니다.')">
-              <span class="pm-icon">🔔</span> 알림 설정
-            </button>
-            <button class="profile-menu-item" onclick="alert('보안 설정 준비 중입니다.')">
-              <span class="pm-icon">🔒</span> 보안 설정
-            </button>
-            <button class="profile-menu-item" onclick="alert('언어/테마 설정 준비 중입니다.')">
-              <span class="pm-icon">🌐</span> 언어 / 테마
-            </button>
+            <button class="profile-menu-item" onclick="alert('내 프로필 준비 중입니다.')"><span class="pm-icon">👤</span> 내 프로필</button>
+            <button class="profile-menu-item" onclick="alert('알림 설정 준비 중입니다.')"><span class="pm-icon">🔔</span> 알림 설정</button>
+            <button class="profile-menu-item" onclick="alert('보안 설정 준비 중입니다.')"><span class="pm-icon">🔒</span> 보안 설정</button>
+            <button class="profile-menu-item" onclick="alert('언어/테마 설정 준비 중입니다.')"><span class="pm-icon">🌐</span> 언어 / 테마</button>
             <div class="profile-menu-divider"></div>
-            <button class="profile-menu-item logout" onclick="logout()">
-              <span class="pm-icon">🚪</span> 로그아웃
-            </button>
+            <button class="profile-menu-item logout" onclick="logout()"><span class="pm-icon">🚪</span> 로그아웃</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- 대시보드 본문 -->
   <div class="dash-body">
     <div class="dash-header">
       <div>
@@ -486,112 +358,21 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
       </div>
       <div class="dash-date" id="dashDate"></div>
     </div>
-
-    <!-- KPI 카드 -->
     <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon si-blue">📋</div>
-          <span class="stat-trend">↑ 12%</span>
-        </div>
-        <div class="stat-value">87</div>
-        <div class="stat-label">통제 항목 점검률 (%)</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon si-green">✅</div>
-          <span class="stat-trend">↑ 5%</span>
-        </div>
-        <div class="stat-value">142</div>
-        <div class="stat-label">이번 달 준수 건수</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon si-orange">⚠️</div>
-          <span class="stat-trend" style="color:var(--warn);background:#fff7ed;">3건</span>
-        </div>
-        <div class="stat-value">3</div>
-        <div class="stat-label">미결 리스크 항목</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon si-purple">🎯</div>
-          <span class="stat-trend">↑ 8%</span>
-        </div>
-        <div class="stat-value">72</div>
-        <div class="stat-label">OKR 달성률 (%)</div>
-      </div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon si-blue">📋</div><span class="stat-trend">↑ 12%</span></div><div class="stat-value">87</div><div class="stat-label">통제 항목 점검률 (%)</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon si-green">✅</div><span class="stat-trend">↑ 5%</span></div><div class="stat-value">142</div><div class="stat-label">이번 달 준수 건수</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon si-orange">⚠️</div><span class="stat-trend" style="color:var(--warn);background:#fff7ed;">3건</span></div><div class="stat-value">3</div><div class="stat-label">미결 리스크 항목</div></div>
+      <div class="stat-card"><div class="stat-top"><div class="stat-icon si-purple">🎯</div><span class="stat-trend">↑ 8%</span></div><div class="stat-value">72</div><div class="stat-label">OKR 달성률 (%)</div></div>
     </div>
-
-    <!-- 모듈 -->
-    <div class="sec-header">
-      <span class="sec-title">내부통제 모듈</span>
-      <span class="sec-hint">클릭하여 해당 모듈로 이동</span>
-    </div>
+    <div class="sec-header"><span class="sec-title">내부통제 모듈</span><span class="sec-hint">클릭하여 해당 모듈로 이동</span></div>
     <div class="module-grid">
-      <div class="mod-card mc-blue" onclick="goTo('okr')">
-        <div class="mod-icon mi-blue">🎯</div>
-        <div class="mod-title">OKR 성과 관리</div>
-        <div class="mod-desc">목표와 핵심결과를 AI와 함께 설정하고 진행상황을 실시간으로 추적합니다.</div>
-        <div class="mod-tags"><span class="mod-tag">THE COMPASS</span><span class="mod-tag">Q2 2026</span></div>
-        <div class="mod-footer">
-          <div class="mod-status"><span class="ms-dot dot-on"></span>운영 중</div>
-          <span class="mod-arr">→</span>
-        </div>
-      </div>
-      <div class="mod-card mc-green">
-        <div class="mod-icon mi-green">🛡️</div>
-        <div class="mod-title">리스크 관리</div>
-        <div class="mod-desc">사업 리스크를 식별하고 AI가 우선순위와 대응방안을 자동으로 제안합니다.</div>
-        <div class="mod-tags"><span class="mod-tag">AI 분석</span><span class="mod-tag">실시간</span></div>
-        <div class="mod-footer">
-          <div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div>
-          <span class="mod-arr">→</span>
-        </div>
-      </div>
-      <div class="mod-card mc-orange">
-        <div class="mod-icon mi-orange">📊</div>
-        <div class="mod-title">컴플라이언스</div>
-        <div class="mod-desc">TIPS R&amp;D 규정 및 각종 법령 준수 현황을 자동으로 점검하고 보고합니다.</div>
-        <div class="mod-tags"><span class="mod-tag">TIPS 기준</span><span class="mod-tag">자동화</span></div>
-        <div class="mod-footer">
-          <div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div>
-          <span class="mod-arr">→</span>
-        </div>
-      </div>
-      <div class="mod-card mc-red">
-        <div class="mod-icon mi-red">📝</div>
-        <div class="mod-title">감사 관리</div>
-        <div class="mod-desc">내부감사 계획 수립부터 결과 보고까지 전 프로세스를 디지털로 관리합니다.</div>
-        <div class="mod-tags"><span class="mod-tag">감사 로그</span><span class="mod-tag">보고서</span></div>
-        <div class="mod-footer">
-          <div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div>
-          <span class="mod-arr">→</span>
-        </div>
-      </div>
-      <div class="mod-card mc-violet">
-        <div class="mod-icon mi-violet">🔐</div>
-        <div class="mod-title">정보보안 관리</div>
-        <div class="mod-desc">개인정보보호 및 정보보안 정책 준수 여부를 AI가 자동으로 점검합니다.</div>
-        <div class="mod-tags"><span class="mod-tag">ISMS</span><span class="mod-tag">개인정보</span></div>
-        <div class="mod-footer">
-          <div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div>
-          <span class="mod-arr">→</span>
-        </div>
-      </div>
-      <div class="mod-card mc-teal">
-        <div class="mod-icon mi-teal">📈</div>
-        <div class="mod-title">경영진 리포트</div>
-        <div class="mod-desc">내부통제 전반 현황을 AI가 요약하여 경영진에게 맞춤형 보고서를 제공합니다.</div>
-        <div class="mod-tags"><span class="mod-tag">AI 요약</span><span class="mod-tag">주간/월간</span></div>
-        <div class="mod-footer">
-          <div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div>
-          <span class="mod-arr">→</span>
-        </div>
-      </div>
+      <div class="mod-card mc-blue" onclick="goTo('okr')"><div class="mod-icon mi-blue">🎯</div><div class="mod-title">OKR 성과 관리</div><div class="mod-desc">목표와 핵심결과를 AI와 함께 설정하고 진행상황을 실시간으로 추적합니다.</div><div class="mod-tags"><span class="mod-tag">THE COMPASS</span><span class="mod-tag">Q2 2026</span></div><div class="mod-footer"><div class="mod-status"><span class="ms-dot dot-on"></span>운영 중</div><span class="mod-arr">→</span></div></div>
+      <div class="mod-card mc-green"><div class="mod-icon mi-green">🛡️</div><div class="mod-title">리스크 관리</div><div class="mod-desc">사업 리스크를 식별하고 AI가 우선순위와 대응방안을 자동으로 제안합니다.</div><div class="mod-tags"><span class="mod-tag">AI 분석</span><span class="mod-tag">실시간</span></div><div class="mod-footer"><div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div><span class="mod-arr">→</span></div></div>
+      <div class="mod-card mc-orange"><div class="mod-icon mi-orange">📊</div><div class="mod-title">컴플라이언스</div><div class="mod-desc">TIPS R&amp;D 규정 및 각종 법령 준수 현황을 자동으로 점검하고 보고합니다.</div><div class="mod-tags"><span class="mod-tag">TIPS 기준</span><span class="mod-tag">자동화</span></div><div class="mod-footer"><div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div><span class="mod-arr">→</span></div></div>
+      <div class="mod-card mc-red"><div class="mod-icon mi-red">📝</div><div class="mod-title">감사 관리</div><div class="mod-desc">내부감사 계획 수립부터 결과 보고까지 전 프로세스를 디지털로 관리합니다.</div><div class="mod-tags"><span class="mod-tag">감사 로그</span><span class="mod-tag">보고서</span></div><div class="mod-footer"><div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div><span class="mod-arr">→</span></div></div>
+      <div class="mod-card mc-violet"><div class="mod-icon mi-violet">🔐</div><div class="mod-title">정보보안 관리</div><div class="mod-desc">개인정보보호 및 정보보안 정책 준수 여부를 AI가 자동으로 점검합니다.</div><div class="mod-tags"><span class="mod-tag">ISMS</span><span class="mod-tag">개인정보</span></div><div class="mod-footer"><div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div><span class="mod-arr">→</span></div></div>
+      <div class="mod-card mc-teal"><div class="mod-icon mi-teal">📈</div><div class="mod-title">경영진 리포트</div><div class="mod-desc">내부통제 전반 현황을 AI가 요약하여 경영진에게 맞춤형 보고서를 제공합니다.</div><div class="mod-tags"><span class="mod-tag">AI 요약</span><span class="mod-tag">주간/월간</span></div><div class="mod-footer"><div class="mod-status"><span class="ms-dot dot-off"></span>준비 중</div><span class="mod-arr">→</span></div></div>
     </div>
-
-    <!-- OKR 하이라이트 -->
     <div class="okr-highlight" onclick="goTo('okr')">
       <div class="okr-hl-icon">🎯</div>
       <div class="okr-hl-body">
@@ -604,9 +385,7 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
   </div>
 </div>
 
-<!-- ═══════════════════════════════
-     SCREEN 3: OKR
-═══════════════════════════════ -->
+<!-- OKR -->
 <div id="okr" class="screen">
   <div class="okr-top">
     <div class="breadcrumb">
@@ -622,129 +401,41 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
     </div>
   </div>
   <div class="okr-body">
-    <!-- Vision Map -->
     <div class="vision-card">
       <div class="vc-label">▌ Vision Map — AI 정렬 분석</div>
-      <div class="company-goal-box">
-        <span class="cg-icon">🏢</span>
-        <div>
-          <div class="cg-title">회사 목표 · 2026</div>
-          <div class="cg-desc">Y-Bridge를 통해 스타트업 내부통제 자동화 시장을 선도하고, TIPS R&amp;D 완료 기준을 달성한다.</div>
-        </div>
-      </div>
-      <div class="laser-area">
-        <div class="laser"></div><div class="laser"></div><div class="laser"></div>
-      </div>
+      <div class="company-goal-box"><span class="cg-icon">🏢</span><div><div class="cg-title">회사 목표 · 2026</div><div class="cg-desc">Y-Bridge를 통해 스타트업 내부통제 자동화 시장을 선도하고, TIPS R&amp;D 완료 기준을 달성한다.</div></div></div>
+      <div class="laser-area"><div class="laser"></div><div class="laser"></div><div class="laser"></div></div>
       <div class="rr-chips">
         <div class="rr-chip"><div class="rr-chip-dot"></div>UX 설계 완성도</div>
         <div class="rr-chip"><div class="rr-chip-dot"></div>개발 연동 가능성</div>
         <div class="rr-chip"><div class="rr-chip-dot"></div>사용자 검증</div>
         <div class="rr-chip"><div class="rr-chip-dot"></div>TIPS 기준 충족</div>
       </div>
-      <div class="ai-box">
-        <span class="ai-box-icon">🤖</span>
-        <span>AI 분석: 현재 팀 OKR은 회사 목표와 <strong>87% 정렬</strong>되어 있습니다. KR3(Figma 프로토타입) 진행률 향상 시 전체 달성 가능성이 크게 높아집니다.</span>
-      </div>
+      <div class="ai-box"><span class="ai-box-icon">🤖</span><span>AI 분석: 현재 팀 OKR은 회사 목표와 <strong>87% 정렬</strong>되어 있습니다. KR3(Figma 프로토타입) 진행률 향상 시 전체 달성 가능성이 크게 높아집니다.</span></div>
     </div>
-
-    <!-- Objective -->
     <div class="obj-card">
       <div class="obj-badge">Objective · Q2 2026</div>
       <div class="obj-main">Y-Bridge MVP UX 설계를 완성하여<br/>개발팀 핸드오프 가능한 상태를 만든다</div>
       <div class="obj-sub">담당: 김남희 책임리더 · VX팀 &nbsp;|&nbsp; 기간: 2026.06 – 2026.08</div>
     </div>
-
-    <!-- Key Results -->
     <div class="kr-sec-lbl">Key Results</div>
     <div class="kr-list">
-      <div class="kr-card">
-        <div class="kr-top">
-          <div class="kr-left">
-            <div class="kr-num">KR 1</div>
-            <div class="kr-text">사용자 유형별 페르소나 3개 도출 및 문서화</div>
-          </div>
-          <div class="kr-right">
-            <span class="kr-dl">📅 6월말</span>
-            <span class="kr-pct">10%</span>
-          </div>
-        </div>
-        <div class="prog-wrap"><div class="prog-fill" style="width:10%"></div></div>
-      </div>
-      <div class="kr-card">
-        <div class="kr-top">
-          <div class="kr-left">
-            <div class="kr-num">KR 2</div>
-            <div class="kr-text">정보구조(IA) 설계 및 화면 목록 확정</div>
-          </div>
-          <div class="kr-right">
-            <span class="kr-dl">📅 6월말</span>
-            <span class="kr-pct">5%</span>
-          </div>
-        </div>
-        <div class="prog-wrap"><div class="prog-fill" style="width:5%;background:linear-gradient(90deg,var(--success),#34d399)"></div></div>
-      </div>
-      <div class="kr-card">
-        <div class="kr-top">
-          <div class="kr-left">
-            <div class="kr-num">KR 3</div>
-            <div class="kr-text">Figma 고충실도 프로토타입 제작 완료</div>
-          </div>
-          <div class="kr-right">
-            <span class="kr-dl">📅 7월말</span>
-            <span class="kr-pct">0%</span>
-          </div>
-        </div>
-        <div class="prog-wrap"><div class="prog-fill" style="width:0%;background:linear-gradient(90deg,var(--warn),#fbbf24)"></div></div>
-      </div>
-      <div class="kr-card">
-        <div class="kr-top">
-          <div class="kr-left">
-            <div class="kr-num">KR 4</div>
-            <div class="kr-text">개발팀 핸드오프 패키지 전달 및 QA 완료</div>
-          </div>
-          <div class="kr-right">
-            <span class="kr-dl">📅 8월말</span>
-            <span class="kr-pct">0%</span>
-          </div>
-        </div>
-        <div class="prog-wrap"><div class="prog-fill" style="width:0%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
-      </div>
+      <div class="kr-card"><div class="kr-top"><div class="kr-left"><div class="kr-num">KR 1</div><div class="kr-text">사용자 유형별 페르소나 3개 도출 및 문서화</div></div><div class="kr-right"><span class="kr-dl">📅 6월말</span><span class="kr-pct">10%</span></div></div><div class="prog-wrap"><div class="prog-fill" style="width:10%"></div></div></div>
+      <div class="kr-card"><div class="kr-top"><div class="kr-left"><div class="kr-num">KR 2</div><div class="kr-text">정보구조(IA) 설계 및 화면 목록 확정</div></div><div class="kr-right"><span class="kr-dl">📅 6월말</span><span class="kr-pct">5%</span></div></div><div class="prog-wrap"><div class="prog-fill" style="width:5%;background:linear-gradient(90deg,var(--success),#34d399)"></div></div></div>
+      <div class="kr-card"><div class="kr-top"><div class="kr-left"><div class="kr-num">KR 3</div><div class="kr-text">Figma 고충실도 프로토타입 제작 완료</div></div><div class="kr-right"><span class="kr-dl">📅 7월말</span><span class="kr-pct">0%</span></div></div><div class="prog-wrap"><div class="prog-fill" style="width:0%;background:linear-gradient(90deg,var(--warn),#fbbf24)"></div></div></div>
+      <div class="kr-card"><div class="kr-top"><div class="kr-left"><div class="kr-num">KR 4</div><div class="kr-text">개발팀 핸드오프 패키지 전달 및 QA 완료</div></div><div class="kr-right"><span class="kr-dl">📅 8월말</span><span class="kr-pct">0%</span></div></div><div class="prog-wrap"><div class="prog-fill" style="width:0%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div></div>
     </div>
-
-    <!-- AI Agents -->
     <div class="agent-label">THE COMPASS · AI 에이전트</div>
     <div class="agent-grid">
-      <div class="agent-card">
-        <div class="ag-icon">🧭</div>
-        <div class="ag-role">Navigator</div>
-        <div class="ag-name">방향 설정 에이전트</div>
-        <div class="ag-desc">목표와 전략 방향을 분석하고 우선순위를 제안합니다</div>
-      </div>
-      <div class="agent-card">
-        <div class="ag-icon">📡</div>
-        <div class="ag-role">Tracker</div>
-        <div class="ag-name">진행 추적 에이전트</div>
-        <div class="ag-desc">KR 진행률을 모니터링하고 리스크를 사전 감지합니다</div>
-      </div>
-      <div class="agent-card">
-        <div class="ag-icon">💡</div>
-        <div class="ag-role">Advisor</div>
-        <div class="ag-name">액션 제안 에이전트</div>
-        <div class="ag-desc">데이터 기반으로 다음 최적 행동을 추천합니다</div>
-      </div>
-      <div class="agent-card">
-        <div class="ag-icon">📊</div>
-        <div class="ag-role">Reporter</div>
-        <div class="ag-name">보고 생성 에이전트</div>
-        <div class="ag-desc">경영진 맞춤형 OKR 현황 보고서를 자동 생성합니다</div>
-      </div>
+      <div class="agent-card"><div class="ag-icon">🧭</div><div class="ag-role">Navigator</div><div class="ag-name">방향 설정 에이전트</div><div class="ag-desc">목표와 전략 방향을 분석하고 우선순위를 제안합니다</div></div>
+      <div class="agent-card"><div class="ag-icon">📡</div><div class="ag-role">Tracker</div><div class="ag-name">진행 추적 에이전트</div><div class="ag-desc">KR 진행률을 모니터링하고 리스크를 사전 감지합니다</div></div>
+      <div class="agent-card"><div class="ag-icon">💡</div><div class="ag-role">Advisor</div><div class="ag-name">액션 제안 에이전트</div><div class="ag-desc">데이터 기반으로 다음 최적 행동을 추천합니다</div></div>
+      <div class="agent-card"><div class="ag-icon">📊</div><div class="ag-role">Reporter</div><div class="ag-name">보고 생성 에이전트</div><div class="ag-desc">경영진 맞춤형 OKR 현황 보고서를 자동 생성합니다</div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════
-     SCREEN 4: 상담신청
-═══════════════════════════════ -->
+<!-- 상담신청 -->
 <div id="consult" class="screen">
   <div class="consult-topbar">
     <div style="display:flex;align-items:center;gap:10px;">
@@ -762,27 +453,12 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
           <div class="consult-sub">아래 정보를 입력하시면 담당자가 1영업일 내에 연락드립니다.</div>
         </div>
         <div class="consult-form-row">
-          <div class="form-group">
-            <label class="form-label">성함<span class="form-required">*</span></label>
-            <input class="form-input" type="text" placeholder="홍길동" id="cName"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">회사명</label>
-            <input class="form-input" type="text" placeholder="(주)플랜아이" id="cCompany"/>
-          </div>
+          <div class="form-group"><label class="form-label">성함<span class="form-required">*</span></label><input class="form-input" type="text" placeholder="홍길동" id="cName"/></div>
+          <div class="form-group"><label class="form-label">회사명</label><input class="form-input" type="text" placeholder="(주)플랜아이" id="cCompany"/></div>
         </div>
-        <div class="form-group" style="margin-top:16px;">
-          <label class="form-label">연락처</label>
-          <input class="form-input" type="tel" placeholder="010-0000-0000" id="cPhone"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">이메일<span class="form-required">*</span></label>
-          <input class="form-input" type="email" placeholder="name@company.com" id="cEmail"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">문의 내용</label>
-          <textarea class="consult-textarea" placeholder="도입 배경, 현재 상황, 궁금한 점을 자유롭게 적어주세요." id="cMessage"></textarea>
-        </div>
+        <div class="form-group" style="margin-top:16px;"><label class="form-label">연락처</label><input class="form-input" type="tel" placeholder="010-0000-0000" id="cPhone"/></div>
+        <div class="form-group"><label class="form-label">이메일<span class="form-required">*</span></label><input class="form-input" type="email" placeholder="name@company.com" id="cEmail"/></div>
+        <div class="form-group"><label class="form-label">문의 내용</label><textarea class="consult-textarea" placeholder="도입 배경, 현재 상황, 궁금한 점을 자유롭게 적어주세요." id="cMessage"></textarea></div>
         <button class="btn-submit" id="submitBtn" onclick="submitConsult()">상담 신청하기</button>
       </div>
       <div class="consult-success" id="consultSuccess">
@@ -795,54 +471,29 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
   </div>
 </div>
 
-<!-- ═══════════════════════════════
-     SCREEN 5: 관리자
-═══════════════════════════════ -->
+<!-- 관리자 -->
 <div id="admin" class="screen">
   <div class="admin-topbar">
-    <div class="admin-logo">
-      <span>🛡️</span> 관리자 콘솔
-      <span class="admin-badge">ADMIN</span>
-    </div>
+    <div class="admin-logo"><span>🛡️</span> 관리자 콘솔 <span class="admin-badge">ADMIN</span></div>
     <button class="btn-line" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2);" onclick="goTo('login')">← 홈으로</button>
   </div>
   <div class="admin-body">
-    <!-- 로그인 -->
     <div class="admin-login-wrap" id="adminLoginWrap">
       <div class="admin-login-card">
         <div class="admin-login-icon">🔐</div>
         <div class="admin-login-title">관리자 인증</div>
         <div class="admin-login-sub">관리자 비밀번호를 입력하세요</div>
-        <div class="form-group">
-          <input class="form-input" type="password" placeholder="비밀번호 입력" id="adminPwInput"
-            onkeydown="if(event.key==='Enter')checkAdmin()"/>
-        </div>
+        <div class="form-group"><input class="form-input" type="password" placeholder="비밀번호 입력" id="adminPwInput" onkeydown="if(event.key==='Enter')checkAdmin()"/></div>
         <button class="btn-submit" onclick="checkAdmin()">확인</button>
         <div class="admin-err" id="adminErr">비밀번호가 올바르지 않습니다.</div>
       </div>
     </div>
-    <!-- 데이터 -->
     <div class="admin-data" id="adminData">
-      <div class="admin-header">
-        <div class="admin-title">상담 신청 목록</div>
-        <div class="admin-count" id="adminCount"></div>
-      </div>
+      <div class="admin-header"><div class="admin-title">상담 신청 목록</div><div class="admin-count" id="adminCount"></div></div>
       <div class="admin-table-wrap">
         <table class="admin-table">
-          <thead>
-            <tr>
-              <th>신청일시</th>
-              <th>성함</th>
-              <th>회사</th>
-              <th>연락처</th>
-              <th>이메일</th>
-              <th>문의 내용</th>
-              <th>상태</th>
-            </tr>
-          </thead>
-          <tbody id="adminTbody">
-            <tr><td colspan="7" class="admin-loading">데이터를 불러오는 중...</td></tr>
-          </tbody>
+          <thead><tr><th>신청일시</th><th>성함</th><th>회사</th><th>연락처</th><th>이메일</th><th>문의 내용</th><th>상태</th></tr></thead>
+          <tbody id="adminTbody"><tr><td colspan="7" class="admin-loading">데이터를 불러오는 중...</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -850,144 +501,119 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--gray-50); colo
 </div>
 
 <script>
-// ── Supabase 설정
 const SUPABASE_URL = 'https://lxtkjnsxphltuvoeojob.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4dGtqbnN4cGhsdHV2b2Vvam9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgyOTcyNjEsImV4cCI6MjA2Mzg3MzI2MX0.CbflrHe-cI4JW5DW71Zj_rYlv8qJLyEb9Fk9kQaRaxI';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4dGtqbnN4cGhsdHV2b2Vvam9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2Mzc4NzksImV4cCI6MjA5NTIxMzg3OX0.Qc6iDStDbsUZEa6L4h-Ad5Sz45X3W4bE-RYX-s4RaxI';
 const ADMIN_PW = 'plani2026';
 
-// ── 화면 이동
-function goTo(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   closeProfile();
-  if (id === 'dashboard') setDashDate();
-  if (id === 'admin') {
-    document.getElementById('adminLoginWrap').style.display = 'flex';
-    document.getElementById('adminData').style.display = 'none';
-    document.getElementById('adminPwInput').value = '';
-    document.getElementById('adminErr').style.display = 'none';
+  if(id==='dashboard')setDashDate();
+  if(id==='admin'){
+    document.getElementById('adminLoginWrap').style.display='flex';
+    document.getElementById('adminData').style.display='none';
+    document.getElementById('adminPwInput').value='';
+    document.getElementById('adminErr').style.display='none';
   }
 }
 
-// ── 로그인
-function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pw = document.getElementById('loginPw').value;
-  if (!email) { alert('이메일을 입력해주세요.'); return; }
-  if (!pw) { alert('비밀번호를 입력해주세요.'); return; }
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pw=document.getElementById('loginPw').value;
+  if(!email){alert('이메일을 입력해주세요.');return;}
+  if(!pw){alert('비밀번호를 입력해주세요.');return;}
   goTo('dashboard');
 }
 
-// ── 날짜
-function setDashDate() {
-  const now = new Date();
-  const days = ['일','월','화','수','목','금','토'];
-  document.getElementById('dashDate').textContent =
-    `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 (${days[now.getDay()]})`;
+function setDashDate(){
+  const now=new Date();
+  const days=['일','월','화','수','목','금','토'];
+  document.getElementById('dashDate').textContent=`${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 (${days[now.getDay()]})`;
 }
 
-// ── 프로필 드롭다운
-function toggleProfile() {
-  const wrap = document.getElementById('profileWrap');
-  wrap.classList.toggle('open');
+function toggleProfile(){
+  document.getElementById('profileWrap').classList.toggle('open');
 }
-function closeProfile() {
+function closeProfile(){
   document.getElementById('profileWrap')?.classList.remove('open');
 }
-// 외부 클릭 시 닫기
-document.addEventListener('click', function(e) {
-  const wrap = document.getElementById('profileWrap');
-  if (wrap && !wrap.contains(e.target)) closeProfile();
+document.addEventListener('click',function(e){
+  const wrap=document.getElementById('profileWrap');
+  if(wrap&&!wrap.contains(e.target))closeProfile();
 });
 
-// ── 로그아웃
-function logout() {
+function logout(){
   closeProfile();
   goTo('login');
-  document.getElementById('loginEmail').value = '';
-  document.getElementById('loginPw').value = '';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPw').value='';
 }
 
-// ── 상담 신청 (Supabase)
-async function submitConsult() {
-  const name    = document.getElementById('cName').value.trim();
-  const company = document.getElementById('cCompany').value.trim();
-  const phone   = document.getElementById('cPhone').value.trim();
-  const email   = document.getElementById('cEmail').value.trim();
-  const message = document.getElementById('cMessage').value.trim();
-  if (!name)  { alert('성함을 입력해주세요.'); return; }
-  if (!email) { alert('이메일을 입력해주세요.'); return; }
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '신청 중...';
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/consultations`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Prefer': 'return=minimal'
+async function submitConsult(){
+  const name=document.getElementById('cName').value.trim();
+  const company=document.getElementById('cCompany').value.trim();
+  const phone=document.getElementById('cPhone').value.trim();
+  const email=document.getElementById('cEmail').value.trim();
+  const message=document.getElementById('cMessage').value.trim();
+  if(!name){alert('성함을 입력해주세요.');return;}
+  if(!email){alert('이메일을 입력해주세요.');return;}
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='신청 중...';
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/consultations`,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPABASE_KEY,
+        'Authorization':`Bearer ${SUPABASE_KEY}`,
+        'Prefer':'return=minimal'
       },
-      body: JSON.stringify({ name, company, phone, email, message })
+      body:JSON.stringify({name,company,phone,email,message})
     });
-    if (res.ok || res.status === 201) {
-      document.getElementById('consultForm').style.display = 'none';
-      document.getElementById('consultSuccess').style.display = 'block';
-    } else {
-      throw new Error('서버 오류');
+    if(res.ok||res.status===201){
+      document.getElementById('consultForm').style.display='none';
+      document.getElementById('consultSuccess').style.display='block';
+    }else{
+      const errText=await res.text();
+      console.error('Supabase error:',res.status,errText);
+      throw new Error(errText);
     }
-  } catch(e) {
+  }catch(e){
+    console.error(e);
     alert('신청 중 오류가 발생했습니다. 다시 시도해주세요.');
-    btn.disabled = false;
-    btn.textContent = '상담 신청하기';
+    btn.disabled=false;btn.textContent='상담 신청하기';
   }
 }
 
-// ── 관리자 인증
-function checkAdmin() {
-  const pw = document.getElementById('adminPwInput').value;
-  if (pw === ADMIN_PW) {
-    document.getElementById('adminLoginWrap').style.display = 'none';
-    document.getElementById('adminData').style.display = 'block';
+function checkAdmin(){
+  const pw=document.getElementById('adminPwInput').value;
+  if(pw===ADMIN_PW){
+    document.getElementById('adminLoginWrap').style.display='none';
+    document.getElementById('adminData').style.display='block';
     loadConsultations();
-  } else {
-    document.getElementById('adminErr').style.display = 'block';
+  }else{
+    document.getElementById('adminErr').style.display='block';
   }
 }
 
-// ── 상담 목록 불러오기
-async function loadConsultations() {
-  const tbody = document.getElementById('adminTbody');
-  tbody.innerHTML = '<tr><td colspan="7" class="admin-loading">데이터를 불러오는 중...</td></tr>';
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/consultations?order=created_at.desc`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`
-      }
+async function loadConsultations(){
+  const tbody=document.getElementById('adminTbody');
+  tbody.innerHTML='<tr><td colspan="7" class="admin-loading">데이터를 불러오는 중...</td></tr>';
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/consultations?order=created_at.desc`,{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`}
     });
-    const data = await res.json();
-    document.getElementById('adminCount').textContent = `총 ${data.length}건`;
-    if (!data.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="admin-empty">신청 내역이 없습니다.</td></tr>';
-      return;
-    }
-    tbody.innerHTML = data.map(row => {
-      const dt = new Date(row.created_at);
-      const dateStr = `${dt.getFullYear()}.${String(dt.getMonth()+1).padStart(2,'0')}.${String(dt.getDate()).padStart(2,'0')} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
-      return `<tr>
-        <td>${dateStr}</td>
-        <td><strong>${row.name || '-'}</strong></td>
-        <td>${row.company || '-'}</td>
-        <td>${row.phone || '-'}</td>
-        <td>${row.email || '-'}</td>
-        <td style="max-width:200px;word-break:break-all;">${row.message || '-'}</td>
-        <td><span class="status-chip">${row.status || '신청완료'}</span></td>
-      </tr>`;
+    const data=await res.json();
+    document.getElementById('adminCount').textContent=`총 ${data.length}건`;
+    if(!data.length){tbody.innerHTML='<tr><td colspan="7" class="admin-empty">신청 내역이 없습니다.</td></tr>';return;}
+    tbody.innerHTML=data.map(row=>{
+      const dt=new Date(row.created_at);
+      const d=`${dt.getFullYear()}.${String(dt.getMonth()+1).padStart(2,'0')}.${String(dt.getDate()).padStart(2,'0')} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+      return `<tr><td>${d}</td><td><strong>${row.name||'-'}</strong></td><td>${row.company||'-'}</td><td>${row.phone||'-'}</td><td>${row.email||'-'}</td><td style="max-width:200px;word-break:break-all;">${row.message||'-'}</td><td><span class="status-chip">${row.status||'신청완료'}</span></td></tr>`;
     }).join('');
-  } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="7" class="admin-empty">데이터 로드 중 오류가 발생했습니다.</td></tr>';
+  }catch(e){
+    tbody.innerHTML='<tr><td colspan="7" class="admin-empty">데이터 로드 중 오류가 발생했습니다.</td></tr>';
   }
 }
 </script>
